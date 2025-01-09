@@ -45,8 +45,7 @@ declare module "next-auth" {
 export const authConfig = {
   session: {
     strategy: "jwt",
-    maxAge: 60,
-    // maxAge: 10 * 60, // 10 minutes in seconds
+    maxAge: 60 * 60 * 24,
   },
   providers: [
     GoogleProvider({
