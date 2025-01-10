@@ -36,7 +36,7 @@ export default async function Header() {
   const session = await auth();
 
   return (
-    <header className="bg-card fixed inset-y-0 left-0 right-0 top-0 z-10 flex h-14 items-center justify-between border-y px-4 py-2">
+    <header className="bg-card fixed inset-y-0 left-0 right-0 top-0 z-50 flex h-14 items-center justify-between border-y px-4 py-2">
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <Sheet>
