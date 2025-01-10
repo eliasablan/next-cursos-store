@@ -3,7 +3,6 @@
 import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 
 const TARGET_TEXT = "IA Coders";
 const CYCLES_PER_LETTER = 2;
@@ -52,7 +51,6 @@ export default function EncryptButton() {
     <Link href="/">
       <Button
         variant="ghost"
-        onClick={async () => await signOut({ redirectTo: "/" })}
         onMouseEnter={scramble}
         onMouseLeave={stopScramble}
         className="group relative overflow-hidden rounded-full border font-mono font-medium uppercase transition-colors"
