@@ -5,6 +5,8 @@ import { type Metadata } from "next";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { auth } from "@/server/auth";
@@ -21,14 +23,25 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html
+      lang="en"
+      className={`${GeistSans.variable}`}
+      suppressHydrationWarning
+    >
       <body>
         <SessionProvider session={session}>
           <TRPCReactProvider>
-            <TooltipProvider>{children}</TooltipProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <TooltipProvider>{children}</TooltipProvider>
+              <Toaster richColors />
+            </ThemeProvider>
           </TRPCReactProvider>
         </SessionProvider>
-        <Toaster richColors />
       </body>
     </html>
   );

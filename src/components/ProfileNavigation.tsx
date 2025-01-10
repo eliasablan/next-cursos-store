@@ -15,7 +15,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -27,40 +26,35 @@ import Image from "next/image";
 export default function ProfileNavigation() {
   const { data: session } = useSession();
   const { setTheme } = useTheme();
-  const displayName = session?.user.username ?? session?.user.name;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon" className="size-10 md:size-9">
-          {!session ? (
-            <User className="size-10 p-1 md:size-9" />
-          ) : (
-            <Avatar className="size-10 rounded-md md:size-9">
-              {session.user.image ? (
-                <AvatarImage
-                  asChild
+          <Avatar className="size-10 rounded-md md:size-9">
+            {session?.user.image ? (
+              <AvatarImage
+                asChild
+                src={session.user.image}
+                alt={"Foto de perfil"}
+              >
+                <Image
                   src={session.user.image}
+                  fill
                   alt={"Foto de perfil"}
-                >
-                  <Image
-                    src={session.user.image}
-                    fill
-                    alt="Foto de perfil"
-                    sizes="6rem"
-                    className="object-cover"
-                  />
-                </AvatarImage>
-              ) : (
-                <User className="size-10 p-1 md:size-9" />
-              )}
-            </Avatar>
-          )}
+                  sizes="6rem"
+                  className="object-cover"
+                />
+              </AvatarImage>
+            ) : (
+              <User className="size-10 p-1 md:size-9" />
+            )}
+          </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>
-          {session ? "Hola, " + displayName : "My Account"}
+          {session ? "Hola, " + session.user.name : "My Account"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -70,7 +64,6 @@ export default function ProfileNavigation() {
                 <User className="mr-2 h-4 w-4" />
                 Perfil
               </span>
-              <DropdownMenuShortcut>⌘J</DropdownMenuShortcut>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSub>
@@ -100,16 +93,6 @@ export default function ProfileNavigation() {
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
-        {/* <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem className="gap-4">
-            <span className="flex items-center">
-              <Keyboard className="mr-2 h-4 w-4" />
-              Atajos de teclado
-            </span>
-            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup> */}
         <DropdownMenuSeparator />
         {session ? (
           <DropdownMenuItem
@@ -124,14 +107,14 @@ export default function ProfileNavigation() {
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+              <g id="SVGRepo_bgCarrier" strokeWidth="0" />
               <g
                 id="SVGRepo_tracerCarrier"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              ></g>
+              />
               <g id="SVGRepo_iconCarrier">
-                <path d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z"></path>
+                <path d="M7.707,8.707,5.414,11H17a1,1,0,0,1,0,2H5.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4A1,1,0,1,1,7.707,8.707ZM21,1H13a1,1,0,0,0,0,2h7V21H13a1,1,0,0,0,0,2h8a1,1,0,0,0,1-1V2A1,1,0,0,0,21,1Z" />
               </g>
             </svg>
           </DropdownMenuItem>
