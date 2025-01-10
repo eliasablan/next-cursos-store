@@ -27,14 +27,13 @@ declare module "next-auth" {
       email: string;
       phone?: string;
       emailVerified?: Date;
-      hasPassword?: boolean;
     } & DefaultSession["user"];
   }
 
-  interface User {
-    // ...other properties
-    role: RoleEnum;
-  }
+  // interface User {
+  //   // ...other properties
+  //   role: RoleEnum;
+  // }
 }
 
 /**
@@ -73,16 +72,6 @@ export const authConfig = {
 
           const user = await db.query.users.findFirst({
             where: eq(users.email, email),
-            columns: {
-              id: true,
-              name: true,
-              password: true,
-              role: true,
-              email: true,
-              image: true,
-              emailVerified: true,
-              phone: true,
-            },
           });
 
           if (!user) {
@@ -96,15 +85,7 @@ export const authConfig = {
           const passwordsMatch = await bcrypt.compare(password, user.password);
 
           if (passwordsMatch) {
-            return {
-              id: user.id,
-              role: user.role,
-              name: user.name,
-              email: user.email,
-              image: user.image,
-              emailVerified: user.emailVerified,
-              phone: user.phone,
-            };
+            return user;
           }
         }
 
@@ -131,23 +112,13 @@ export const authConfig = {
       if (!token.sub) return token;
 
       // sub field in the user will have id of that user.
-      const existingUser = await db.query.users.findFirst({
+      const user = await db.query.users.findFirst({
         where: eq(users.id, token.sub),
       });
 
-      if (!existingUser) return token;
+      if (!user) return token;
 
-      if (existingUser.password) {
-        token.hasPassword = true;
-      }
-
-      token.role = existingUser.role;
-      token.name = existingUser.name;
-      token.picture = existingUser.image;
-      token.email = existingUser.email;
-      token.emailVerified = existingUser.emailVerified;
-      token.phone = existingUser.phone;
-      return token;
+      return user;
     },
     session: async ({ session, token }) => {
       // Validar si el token ha expirado
@@ -157,7 +128,16 @@ export const authConfig = {
         await signOut();
       }
 
-      return { ...session, accessToken: token.accessToken };
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          role: token.role,
+          email: token.email,
+          phone: token.phone,
+          emailVerified: token.emailVerified,
+        },
+      };
     },
     signIn: async () => {
       return true;
