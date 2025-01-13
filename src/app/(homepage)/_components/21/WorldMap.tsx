@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import DottedMap from "dotted-map";
 import Image from "next/image";
@@ -18,14 +18,22 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const map = new DottedMap({ height: 100, grid: "diagonal" });
 
-  const { theme } = useTheme();
+  const { resolvedTheme: theme } = useTheme();
 
-  const svgMap = map.getSVG({
-    radius: 0.22,
-    color: theme === "dark" ? "#FFFFFF40" : "#00000040",
-    shape: "circle",
-    backgroundColor: theme === "dark" ? "black" : "white",
-  });
+  const getCSSVariable = (variable: string) => {
+    return getComputedStyle(document.documentElement).getPropertyValue(
+      variable,
+    );
+  };
+
+  const svgMap = useCallback(() => {
+    return map.getSVG({
+      radius: 0.22,
+      shape: "circle",
+      color: getCSSVariable("--foreground"),
+      backgroundColor: getCSSVariable("--background"),
+    });
+  }, [map, theme]);
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);
@@ -43,9 +51,9 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
   };
 
   return (
-    <div className="relative aspect-[2/1] w-full rounded-lg bg-white font-sans dark:bg-black">
+    <div className="relative aspect-[2/1] w-full rounded-lg">
       <Image
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
+        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap())}`}
         className="pointer-events-none h-full w-full select-none [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)]"
         alt="world map"
         height="495"
@@ -79,7 +87,7 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
                   ease: "easeOut",
                 }}
                 key={`start-upper-${i}`}
-              ></motion.path>
+              />
             </g>
           );
         })}
