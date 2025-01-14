@@ -18,7 +18,7 @@ export default async function Dashboard({ children }: DashboardProps) {
         </aside>
       )}
       <div className="fixed inset-y-0 bottom-0 left-0 right-0 top-14 overflow-y-auto sm:left-12">
-        <div className="mx-auto h-full w-full max-w-7xl">{children}</div>
+        <div className="mx-auto h-full w-full max-w-7xl p-4">{children}</div>
       </div>
     </div>
   );
