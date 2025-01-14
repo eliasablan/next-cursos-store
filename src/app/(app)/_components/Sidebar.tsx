@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useSession } from "next-auth/react";
 import { Separator } from "@/components/ui/separator";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { links } from "@/lib/sidebar-links";
 
 export default function Sidebar() {

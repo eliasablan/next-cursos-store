@@ -6,6 +6,22 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+type HeroProps = {
+  className?: string;
+  gradient?: boolean;
+  blur?: boolean;
+  title: string;
+  subtitle?: string;
+  actions?: Array<{
+    label: string;
+    href: string;
+    variant?: "default" | "outline" | "ghost";
+  }>;
+  titleClassName?: string;
+  subtitleClassName?: string;
+  actionsClassName?: string;
+};
+
 const Hero = React.forwardRef<HTMLElement, HeroProps>(
   (
     {
@@ -127,7 +143,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
                 {actions.map((action, index) => (
                   <Button
                     key={index}
-                    variant={action.variant || "default"}
+                    variant={action.variant ?? "default"}
                     asChild
                   >
                     <Link href={action.href}>{action.label}</Link>

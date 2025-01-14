@@ -33,6 +33,7 @@ export function WorldMap({ dots = [], lineColor = "#0ea5e9" }: MapProps) {
       color: getCSSVariable("--foreground"),
       backgroundColor: getCSSVariable("--background"),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, theme]);
 
   const projectPoint = (lat: number, lng: number) => {
