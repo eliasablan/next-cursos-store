@@ -30,7 +30,7 @@ export default function ProfileNavigation() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="size-10 md:size-9">
+        <Button variant="outline" size="icon" className="size-10">
           <Avatar className="size-10 rounded-md md:size-9">
             {session?.user.image ? (
               <AvatarImage

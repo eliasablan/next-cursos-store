@@ -81,9 +81,7 @@ export default function Header() {
         </nav>
         <div className="flex items-center gap-2">
           <SearchBar />
-          <Suspense
-            fallback={<Skeleton className="size-10 rounded-md md:size-9" />}
-          >
+          <Suspense fallback={<Skeleton className="size-10 rounded-md" />}>
             <LoginNavigation />
           </Suspense>
         </div>

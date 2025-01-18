@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { auth } from "@/server/auth";
 
-import { SheetClose } from "@/components/ui/sheet";
+import { SheetClose, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import ProfileNavigation from "../../../components/ProfileNavigation";
 
@@ -11,21 +11,16 @@ export async function MobileLoginButton() {
 
   await new Promise((resolve) => setTimeout(resolve, 1000));
 
-  if (!session) return;
+  if (session) return;
 
   return (
-    <nav className="flex flex-col gap-2">
+    <SheetFooter>
       <SheetClose asChild>
-        <Button size="sm" asChild>
+        <Button asChild>
           <Link href="/ingresar">Ingresa</Link>
         </Button>
       </SheetClose>
-      <SheetClose asChild>
-        <Button variant="secondary" size="sm" asChild>
-          <Link href="/registro">Regístrate</Link>
-        </Button>
-      </SheetClose>
-    </nav>
+    </SheetFooter>
   );
 }
 
@@ -40,9 +35,6 @@ export async function LoginNavigation() {
     <div className="hidden gap-2 md:flex">
       <Button size="sm" asChild>
         <Link href="/ingresar">Ingresa</Link>
-      </Button>
-      <Button variant="secondary" size="sm" asChild>
-        <Link href="/registro">Regístrate</Link>
       </Button>
     </div>
   );
