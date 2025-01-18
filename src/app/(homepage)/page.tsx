@@ -1,4 +1,4 @@
-import Header from "@/app/(homepage)/_components/Header";
+import Header from "./_components/Header";
 // import { HeroIcons } from "./_components/FirstHero";
 import { HeroScroll } from "./_components/SecondHero";
 // import { HeroWorldMap } from "./_components/ThirdHero";

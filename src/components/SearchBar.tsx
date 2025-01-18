@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   Bell,
@@ -32,12 +32,24 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 // import { api } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "./ui/skeleton";
 
 export default function SearchBar() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [mounted, setMounted] = useState(false);
   const [searchValue, setSearchValue] = useState<string | undefined>(undefined);
+
+  // Manejar el montaje del componente
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Mostrar un placeholder mientras se determina el estado del cliente
+  if (!mounted) {
+    return <Skeleton className="h-10 w-10 rounded-md md:h-9 md:w-44" />;
+  }
 
   // Fetch search results from the server
   // const results = api.search.search.useQuery();
@@ -203,7 +215,7 @@ export default function SearchBar() {
           variant="outline"
           className="size-10 md:hidden"
         >
-          <Search className="text-accent-foreground size-5" />
+          <Search className="size-5 text-accent-foreground" />
         </Button>
       </DrawerTrigger>
       <DrawerContent>
@@ -291,7 +303,7 @@ export default function SearchBar() {
               >
                 <Home className="mr-2 h-4 w-4" />
                 <span>Inicio</span>
-                <CommandShortcut className="bg-muted text-muted-foreground rounded border p-1">
+                <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
                   ⌘I
                 </CommandShortcut>
               </CommandItem>
@@ -305,7 +317,7 @@ export default function SearchBar() {
               >
                 <User className="mr-2 h-4 w-4" />
                 <span>Perfil</span>
-                <CommandShortcut className="bg-muted text-muted-foreground rounded border p-1">
+                <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
                   ⌘J
                 </CommandShortcut>
               </CommandItem>
@@ -319,7 +331,7 @@ export default function SearchBar() {
               >
                 <Bell className="mr-2 h-4 w-4" />
                 <span>Notificaciones</span>
-                <CommandShortcut className="bg-muted text-muted-foreground rounded border p-1">
+                <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
                   ⌘K
                 </CommandShortcut>
               </CommandItem>

@@ -1,7 +1,6 @@
 import React, { Suspense } from "react";
 import { PanelLeft } from "lucide-react";
 import Link from "next/link";
-import { auth } from "@/server/auth";
 
 import {
   Sheet,
@@ -14,13 +13,13 @@ import {
 import { Button } from "@/components/ui/button";
 import EncryptButton from "../../../components/EncryptButton";
 import SearchBar from "../../../components/SearchBar";
-import ProfileNavigation from "../../../components/ProfileNavigation";
+import { LoginNavigation, MobileLoginButton } from "./SessionButtons";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const links = [
   {
     title: "Dashboard",
     href: "/dashboard",
-    authed: true,
   },
   {
     title: "Cursos",
@@ -32,12 +31,10 @@ const links = [
   },
 ];
 
-export default async function Header() {
-  const session = await auth();
-
+export default function Header() {
   return (
-    <header className="bg-card fixed inset-y-0 left-0 right-0 top-0 z-50 flex h-14 items-center justify-between border-y px-4 py-2">
-      <div className="flex w-full items-center justify-between gap-2">
+    <header className="fixed inset-y-0 left-0 right-0 top-0 z-50 flex h-14 items-center justify-between border-y bg-card px-4 py-2">
+      <div className="relative flex w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <Sheet>
             <SheetTrigger asChild>
@@ -54,69 +51,40 @@ export default async function Header() {
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-4 pt-4">
-                  {links.map(
-                    (link) =>
-                      link.authed && (
-                        <SheetClose key={link.href} asChild>
-                          <Link
-                            href={link.href}
-                            className="text-muted-foreground hover:text-foreground flex items-center gap-4 px-1"
-                          >
-                            {link.title}
-                          </Link>
-                        </SheetClose>
-                      ),
-                  )}
+                  {links.map((link) => (
+                    <SheetClose key={link.href} asChild>
+                      <Link
+                        href={link.href}
+                        className="flex items-center gap-4 px-1 text-muted-foreground hover:text-foreground"
+                      >
+                        {link.title}
+                      </Link>
+                    </SheetClose>
+                  ))}
                 </nav>
-                <Suspense fallback={<div>Cargando...</div>}>
-                  {!session && (
-                    <nav className="flex flex-col gap-2">
-                      <SheetClose asChild>
-                        <Button size="sm" asChild>
-                          <Link href="/ingresar">Ingresa</Link>
-                        </Button>
-                      </SheetClose>
-                      {/* <SheetClose asChild>
-                      <Button variant="secondary" size="sm" asChild>
-                        <Link href="/registro">Regístrate</Link>
-                      </Button>
-                    </SheetClose> */}
-                    </nav>
-                  )}
-                </Suspense>
+                <MobileLoginButton />
               </div>
             </SheetContent>
           </Sheet>
           <EncryptButton />
         </div>
-        <nav className="hidden gap-4 md:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 gap-4 md:flex">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-muted-foreground hover:text-foreground flex items-center gap-4 px-1 text-sm"
+              className="flex items-center gap-4 px-1 text-sm text-muted-foreground hover:text-foreground"
             >
               {link.title}
             </Link>
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Suspense fallback={<div>Cargando...</div>}>
-            <SearchBar />
-          </Suspense>
-          <Suspense fallback={<div>Cargando...</div>}>
-            {session ? (
-              <ProfileNavigation />
-            ) : (
-              <div className="hidden gap-2 md:flex">
-                <Button size="sm" asChild>
-                  <Link href="/ingresar">Ingresa</Link>
-                </Button>
-                {/* <Button variant="secondary" size="sm" asChild>
-                <Link href="/registro">Regístrate</Link>
-                </Button> */}
-              </div>
-            )}
+          <SearchBar />
+          <Suspense
+            fallback={<Skeleton className="size-10 rounded-md md:size-9" />}
+          >
+            <LoginNavigation />
           </Suspense>
         </div>
       </div>
