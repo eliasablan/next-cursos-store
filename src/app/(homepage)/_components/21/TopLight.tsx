@@ -42,7 +42,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
       <section
         ref={ref}
         className={cn(
-          "bg-background relative z-0 flex min-h-[80vh] w-full flex-col items-center justify-center overflow-hidden rounded-md",
+          "relative z-0 flex min-h-[80vh] w-full flex-col items-center justify-center overflow-hidden bg-background",
           className,
         )}
         {...props}
@@ -54,7 +54,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
             )}
 
             {/* Main glow */}
-            <div className="bg-primary/60 absolute inset-auto z-50 h-36 w-[28rem] -translate-y-[-30%] rounded-full opacity-80 blur-3xl" />
+            <div className="absolute inset-auto z-50 h-36 w-[28rem] -translate-y-[-30%] rounded-full bg-primary/60 opacity-80 blur-3xl" />
 
             {/* Lamp effect */}
             <motion.div
@@ -62,7 +62,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
               viewport={{ once: true }}
               transition={{ ease: "easeInOut", delay: 0.3, duration: 0.8 }}
               whileInView={{ width: "16rem" }}
-              className="bg-primary/60 absolute top-0 z-30 h-36 -translate-y-[20%] rounded-full blur-2xl"
+              className="absolute top-0 z-30 h-36 -translate-y-[20%] rounded-full bg-primary/60 blur-2xl"
             />
 
             {/* Top line */}
@@ -71,7 +71,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
               viewport={{ once: true }}
               transition={{ ease: "easeInOut", delay: 0.3, duration: 0.8 }}
               whileInView={{ width: "30rem" }}
-              className="bg-primary/60 absolute inset-auto z-50 h-0.5 -translate-y-[-10%]"
+              className="absolute inset-auto z-50 h-0.5 -translate-y-[-10%] bg-primary/60"
             />
 
             {/* Left gradient cone */}
@@ -86,10 +86,10 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
               style={{
                 backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
               }}
-              className="bg-gradient-conic from-primary/60 absolute inset-auto right-1/2 h-56 w-[30rem] overflow-visible via-transparent to-transparent [--conic-position:from_70deg_at_center_top]"
+              className="bg-gradient-conic absolute inset-auto right-1/2 h-56 w-[30rem] overflow-visible from-primary/60 via-transparent to-transparent [--conic-position:from_70deg_at_center_top]"
             >
-              <div className="bg-background absolute bottom-0 left-0 z-20 h-40 w-[100%] [mask-image:linear-gradient(to_top,white,transparent)]" />
-              <div className="bg-background absolute bottom-0 left-0 z-20 h-[100%] w-40 [mask-image:linear-gradient(to_right,white,transparent)]" />
+              <div className="absolute bottom-0 left-0 z-20 h-40 w-[100%] bg-background [mask-image:linear-gradient(to_top,white,transparent)]" />
+              <div className="absolute bottom-0 left-0 z-20 h-[100%] w-40 bg-background [mask-image:linear-gradient(to_right,white,transparent)]" />
             </motion.div>
 
             {/* Right gradient cone */}
@@ -104,10 +104,10 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
               style={{
                 backgroundImage: `conic-gradient(var(--conic-position), var(--tw-gradient-stops))`,
               }}
-              className="bg-gradient-conic to-primary/60 absolute inset-auto left-1/2 h-56 w-[30rem] from-transparent via-transparent [--conic-position:from_290deg_at_center_top]"
+              className="bg-gradient-conic absolute inset-auto left-1/2 h-56 w-[30rem] from-transparent via-transparent to-primary/60 [--conic-position:from_290deg_at_center_top]"
             >
-              <div className="bg-background absolute bottom-0 right-0 z-20 h-[100%] w-40 [mask-image:linear-gradient(to_left,white,transparent)]" />
-              <div className="bg-background absolute bottom-0 right-0 z-20 h-40 w-[100%] [mask-image:linear-gradient(to_top,white,transparent)]" />
+              <div className="absolute bottom-0 right-0 z-20 h-[100%] w-40 bg-background [mask-image:linear-gradient(to_left,white,transparent)]" />
+              <div className="absolute bottom-0 right-0 z-20 h-40 w-[100%] bg-background [mask-image:linear-gradient(to_top,white,transparent)]" />
             </motion.div>
           </div>
         )}
@@ -131,7 +131,7 @@ const Hero = React.forwardRef<HTMLElement, HeroProps>(
             {subtitle && (
               <p
                 className={cn(
-                  "text-muted-foreground text-xl",
+                  "text-xl text-muted-foreground",
                   subtitleClassName,
                 )}
               >
