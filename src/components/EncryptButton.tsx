@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const TARGET_TEXT = "IA Coders";
 const CYCLES_PER_LETTER = 2;
@@ -10,7 +11,7 @@ const SHUFFLE_TIME = 50;
 
 const CHARS = "!@#$%^&*():{};|,.<>/?";
 
-export default function EncryptButton() {
+export default function EncryptButton({ className }: { className?: string }) {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const [text, setText] = useState(TARGET_TEXT);
@@ -48,17 +49,21 @@ export default function EncryptButton() {
   };
 
   return (
-    <Link href="/">
-      <Button
-        variant="ghost"
-        onMouseEnter={scramble}
-        onMouseLeave={stopScramble}
-        className="group relative overflow-hidden rounded-full border font-mono font-medium uppercase transition-colors"
-      >
+    <Button
+      variant="ghost"
+      onMouseEnter={scramble}
+      onMouseLeave={stopScramble}
+      className={cn(
+        "group relative overflow-hidden rounded-full border font-mono font-medium uppercase transition-colors",
+        className,
+      )}
+      asChild
+    >
+      <Link href="/">
         <div className="relative z-10 flex items-center gap-2 text-lg">
           <span>{text}</span>
         </div>
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 }
