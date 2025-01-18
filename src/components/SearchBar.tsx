@@ -48,7 +48,7 @@ export default function SearchBar() {
 
   // Mostrar un placeholder mientras se determina el estado del cliente
   if (!mounted) {
-    return <Skeleton className="h-10 w-10 rounded-md md:h-9 md:w-44" />;
+    return <Skeleton className="size-10 rounded-md" />;
   }
 
   // Fetch search results from the server
@@ -71,15 +71,11 @@ export default function SearchBar() {
       <>
         <Button
           onClick={() => setOpen(true)}
+          size="icon"
           variant="outline"
-          size="sm"
-          className="relative hidden w-44 rounded-full text-left text-sm md:block"
+          className="size-10"
         >
-          <Search className="absolute left-2 size-5" />
-          <p className="inline pl-6 font-normal">Buscar</p>
-          {/* <kbd className="pointer-events-none absolute right-2 h-5 select-none rounded border px-1.5 font-mono text-sm opacity-100">
-            /
-          </kbd> */}
+          <Search className="size-5 text-accent-foreground" />
         </Button>
         <CommandDialog
           dialogTitle="Buscador"
