@@ -8,14 +8,14 @@ function MarqueeEffectDouble() {
         baseVelocity={-3}
         className="bg-green-500 py-2 text-white"
       >
-        Bundui Components
+        REGISTRATE
       </MarqueeAnimation>
       <MarqueeAnimation
         direction="right"
         baseVelocity={-3}
         className="bg-purple-500 py-2 text-white"
       >
-        Bundui Components
+        IA CODERS
       </MarqueeAnimation>
     </div>
   );

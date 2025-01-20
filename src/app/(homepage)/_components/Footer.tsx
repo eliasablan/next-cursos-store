@@ -1,32 +1,34 @@
 import EncryptButton from "@/components/EncryptButton";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import XformerlyTwitter from "@/components/icons/XTwitter";
+import Link from "next/link";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const sections = [
   {
-    title: "Product",
+    title: "Producto",
     links: [
-      { name: "Overview", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "Marketplace", href: "#" },
-      { name: "Features", href: "#" },
+      { name: "Visión General", href: "#" },
+      { name: "Precios", href: "#" },
+      { name: "Mercado", href: "#" },
+      { name: "Características", href: "#" },
     ],
   },
   {
-    title: "Company",
+    title: "Compañía",
     links: [
-      { name: "About", href: "#" },
-      { name: "Team", href: "#" },
+      { name: "Acerca de", href: "#" },
+      { name: "Equipo", href: "#" },
       { name: "Blog", href: "#" },
-      { name: "Careers", href: "#" },
+      { name: "Carreras", href: "#" },
     ],
   },
   {
-    title: "Resources",
+    title: "Recursos",
     links: [
-      { name: "Help", href: "#" },
-      { name: "Sales", href: "#" },
-      { name: "Advertise", href: "#" },
-      { name: "Privacy", href: "#" },
+      { name: "Ayuda", href: "#" },
+      { name: "Ventas", href: "#" },
+      { name: "Publicidad", href: "#" },
+      { name: "Privacidad", href: "#" },
     ],
   },
 ];
@@ -40,31 +42,31 @@ const Footer = () => {
             <div className="flex w-full max-w-96 shrink flex-col items-center justify-between gap-6 lg:items-start">
               <div>
                 <EncryptButton />
-                <p className="text-muted-foreground mt-6 text-sm">
-                  A collection of 100+ responsive HTML templates for your
-                  startup business or side project.
+                <p className="mt-6 text-sm text-muted-foreground">
+                  Una colección de cursos para potenciar tus habilidades y
+                  conocimientos.
                 </p>
               </div>
-              <ul className="text-muted-foreground flex items-center space-x-6">
-                <li className="hover:text-primary font-medium">
-                  <a href="#">
+              <ul className="flex items-center space-x-6 text-muted-foreground">
+                <li className="font-medium hover:text-primary">
+                  <Link href="https://www.instagram.com/eliasablan/">
                     <FaInstagram className="size-6" />
-                  </a>
+                  </Link>
                 </li>
-                <li className="hover:text-primary font-medium">
-                  <a href="#">
-                    <FaFacebook className="size-6" />
-                  </a>
+                <li className="font-medium hover:text-primary">
+                  <Link href="https://github.com/eliasablan">
+                    <FaGithub className="size-6" />
+                  </Link>
                 </li>
-                <li className="hover:text-primary font-medium">
-                  <a href="#">
-                    <FaTwitter className="size-6" />
-                  </a>
+                <li className="font-medium hover:text-primary">
+                  <Link href="https://x.com/eliasablan">
+                    <XformerlyTwitter className="size-5 fill-muted-foreground" />
+                  </Link>
                 </li>
-                <li className="hover:text-primary font-medium">
-                  <a href="#">
+                <li className="font-medium hover:text-primary">
+                  <Link href="https://www.linkedin.com/in/eliasablan/">
                     <FaLinkedin className="size-6" />
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -72,11 +74,11 @@ const Footer = () => {
               {sections.map((section, sectionIdx) => (
                 <div key={sectionIdx}>
                   <h3 className="mb-6 font-bold">{section.title}</h3>
-                  <ul className="text-muted-foreground space-y-4 text-sm">
+                  <ul className="space-y-4 text-sm text-muted-foreground">
                     {section.links.map((link, linkIdx) => (
                       <li
                         key={linkIdx}
-                        className="hover:text-primary font-medium"
+                        className="font-medium hover:text-primary"
                       >
                         <a href={link.href}>{link.name}</a>
                       </li>
@@ -86,14 +88,14 @@ const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="text-muted-foreground mt-20 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium lg:flex-row lg:items-center lg:text-left">
-            <p>© 2024 Shadcnblocks. All rights reserved.</p>
+          <div className="mt-20 flex flex-col justify-between gap-4 border-t pt-8 text-center text-sm font-medium text-muted-foreground lg:flex-row lg:items-center lg:text-left">
+            <p>2024 IA Coders. Desarrollado por Elias Ablan.</p>
             <ul className="flex justify-center gap-4 lg:justify-start">
               <li className="hover:text-primary">
-                <a href="#"> Terms and Conditions</a>
+                <Link href="#">Términos y Condiciones</Link>
               </li>
               <li className="hover:text-primary">
-                <a href="#"> Privacy Policy</a>
+                <Link href="#">Política de Privacidad</Link>
               </li>
             </ul>
           </div>

@@ -3,17 +3,17 @@ import { Hero } from "./21/TopLight";
 function TopLightHero() {
   return (
     <Hero
-      title="AI that works for you."
-      subtitle="Transform your workflow with intelligent automation. Simple, powerful, reliable."
+      title="¡Descubre tu potencial!"
+      subtitle="Crea, vende y compra cursos en un solo lugar. Conéctate con una comunidad de aprendices y educadores."
       actions={[
         {
-          label: "Try Demo",
-          href: "#",
+          label: "Prueba la Demo",
+          href: "/ingresar",
           variant: "outline",
         },
         {
-          label: "Start Free",
-          href: "#",
+          label: "Comienza gratis",
+          href: "/ingresar",
           variant: "default",
         },
       ]}
