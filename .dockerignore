@@ -1,6 +1,6 @@
 .env
 Dockerfile
-docker-compose.yml
+docker-compose.yaml
 .dockerignore
 .next
 .git
