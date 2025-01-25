@@ -1,6 +1,11 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import Credentials from "next-auth/providers/credentials";
-import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import {
+  CredentialsSignin,
+  type User,
+  type DefaultSession,
+  type NextAuthConfig,
+} from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
 import { eq } from "drizzle-orm";
@@ -36,6 +41,14 @@ declare module "next-auth" {
   // }
 }
 
+class NotFoundLoginError extends CredentialsSignin {
+  code = "Usuario no encontrado";
+}
+
+class InvalidLoginError extends CredentialsSignin {
+  code = "Credenciales inválidas";
+}
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -47,6 +60,11 @@ export const authConfig = {
     strategy: "jwt",
     maxAge: 60 * 60 * 24,
   },
+  debug: env.NODE_ENV === "development",
+  pages: {
+    signIn: "/ingresar",
+    signOut: "/",
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -57,15 +75,15 @@ export const authConfig = {
       name: "Credentials",
       credentials: {
         email: {
-          label: "Username o Email",
-          type: "text",
+          label: "Email",
+          type: "email",
         },
         password: {
           label: "Password",
           type: "password",
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<User | null> {
         const parsedCredentials = loginSchema.safeParse(credentials);
 
         if (parsedCredentials.success) {
@@ -76,21 +94,17 @@ export const authConfig = {
           });
 
           if (!user) {
-            throw new Error("Usuario no encontrado");
+            throw new NotFoundLoginError();
           }
 
-          if (!user.password) {
-            throw new Error("Este usuario no tiene contraseña");
-          }
-
-          const passwordsMatch = await bcrypt.compare(password, user.password);
+          const passwordsMatch = await bcrypt.compare(password, user.password!);
 
           if (passwordsMatch) {
             return user;
           }
         }
 
-        throw new Error("Credenciales inválidas");
+        throw new InvalidLoginError();
       },
     }),
     /**

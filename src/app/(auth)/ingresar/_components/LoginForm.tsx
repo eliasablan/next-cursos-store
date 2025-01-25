@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { type z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,9 +30,9 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 
 export default function LoginPreview() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
+  const error = searchParams.get("code");
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -41,28 +42,29 @@ export default function LoginPreview() {
     },
   });
 
-  const redirectOptions = {
-    redirect: true,
-    callbackUrl: callbackUrl ? callbackUrl : "/",
-  };
-
   async function onSubmit(values: z.infer<typeof loginSchema>) {
-    const response = await signIn("credentials", {
+    await signIn("credentials", {
       email: values.email,
       password: values.password,
-      ...redirectOptions,
+      callbackUrl: callbackUrl ? callbackUrl : "/dashboard",
     });
-
-    if (response) {
-      if (response.ok) {
-        toast.success(`Logged in successfully`);
-        router.push("/");
-        return;
-      }
-      toast.error(response.error);
-      return;
-    }
   }
+
+  useEffect(() => {
+    let toastTimeout: NodeJS.Timeout;
+
+    if (error) {
+      toastTimeout = setTimeout(() => {
+        toast.error(error);
+      }, 1);
+    }
+
+    return () => {
+      if (toastTimeout) {
+        clearTimeout(toastTimeout);
+      }
+    };
+  }, [error]);
 
   return (
     <Card className="mx-auto max-w-sm">
