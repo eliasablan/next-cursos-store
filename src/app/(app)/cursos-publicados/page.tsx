@@ -33,9 +33,9 @@ export default async function page() {
 
   return (
     <main className="grid w-full pb-4">
-      <div className="mb-4 flex w-full items-center justify-between">
-        <h1 className="flex items-center gap-2 text-2xl font-semibold">
-          <Briefcase className="size-6" />
+      <div className="mb-4 flex w-full items-center justify-between gap-4">
+        <h1 className="block space-x-2 text-2xl font-semibold">
+          <Briefcase className="mb-1 mr-2 inline size-6" />
           Cursos publicados
         </h1>
         <Button size="sm" asChild>
