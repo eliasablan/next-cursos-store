@@ -6,12 +6,13 @@ import CourseForm from "@/app/(app)/crear-curso/_components/CourseForm";
 export default async function EditCourse({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const { slug } = await params;
   const session = await auth();
 
   const course = await api.course.getCourseBySlug({
-    slug: params.slug,
+    slug: slug,
   });
 
   if (!course) {

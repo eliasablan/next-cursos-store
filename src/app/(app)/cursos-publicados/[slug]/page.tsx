@@ -14,11 +14,16 @@ import { auth } from "@/server/auth";
 // import LessonsCard from "../_components/LessonsCard";
 import GoBackButton from "@/components/GoBackButton";
 
-export default async function Curso({ params }: { params: { slug: string } }) {
+export default async function Curso({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   const session = await auth();
 
   const course = await api.course.getCourseBySlug({
-    slug: params.slug,
+    slug,
   });
 
   if (!course) {
@@ -56,7 +61,7 @@ export default async function Curso({ params }: { params: { slug: string } }) {
         {/* BOTON EDITAR */}
         {session?.user.id === course.ownerId && (
           <Link
-            href={`/cursos-publicados/${params.slug}/editar`}
+            href={`/cursos-publicados/${slug}/editar`}
             className={cn("ml-auto", buttonVariants({ size: "sm" }))}
           >
             Editar curso

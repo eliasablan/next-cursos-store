@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Mis cursos",
 };
 
-export const STATUS = [
+const STATUS = [
   { key: "finished", label: "Finalizados" },
   { key: "started", label: "En progreso" },
   { key: "next", label: "Próximos" },
