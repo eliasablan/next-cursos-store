@@ -47,7 +47,6 @@ export default async function Header() {
                   </SheetTitle>
                 </SheetHeader>
 
-                {/* <Suspense fallback={<div>Cargando...</div>}> */}
                 {session ? (
                   <nav className="flex flex-col gap-4 py-4">
                     {links
@@ -57,8 +56,8 @@ export default async function Header() {
                         );
                       })
                       .map((link) => (
-                        <SheetClose key={link.href}>
-                          <div className="flex flex-col gap-4">
+                        <>
+                          <SheetClose key={link.href} asChild>
                             <Link
                               href={link.href}
                               className="flex items-center gap-4 px-1 text-muted-foreground hover:text-foreground"
@@ -66,9 +65,9 @@ export default async function Header() {
                               <link.icon className="h-5 w-5" />
                               {link.title}
                             </Link>
-                            {link.separator && <Separator />}
-                          </div>
-                        </SheetClose>
+                          </SheetClose>
+                          {link.separator && <Separator />}
+                        </>
                       ))}
                   </nav>
                 ) : (
@@ -80,7 +79,6 @@ export default async function Header() {
                     </SheetClose>
                   </nav>
                 )}
-                {/* </Suspense> */}
               </div>
             </SheetContent>
           </Sheet>
