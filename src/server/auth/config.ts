@@ -133,7 +133,13 @@ export const authConfig = {
 
       if (!user) return token;
 
-      return user;
+      token.role = user.role;
+      token.name = user.name;
+      token.picture = user.image;
+      token.email = user.email;
+      token.emailVerified = user.emailVerified;
+      token.phone = user.phone;
+      return token;
     },
     session: async ({ session, token }) => {
       // Validar si el token ha expirado
@@ -147,10 +153,13 @@ export const authConfig = {
         ...session,
         user: {
           ...session.user,
+          id: token.sub,
           role: token.role,
+          name: token.name,
+          image: token.picture,
           email: token.email,
-          phone: token.phone,
           emailVerified: token.emailVerified,
+          phone: token.phone,
         },
       };
     },
