@@ -61,6 +61,45 @@ export const courseRouter = createTRPCRouter({
       };
     }),
 
+  getPublishedCourses: protectedProcedure
+    .input(z.object({ ownerId: z.string() }))
+    .output(
+      z.array(
+        z.object({
+          id: z.string(),
+          name: z.string().nullable(),
+          slug: z.string(),
+          description: z.string().nullable(),
+          startDate: z.date(),
+          endDate: z.date(),
+          status: z.string(),
+          createdAt: z.date(),
+          updatedAt: z.date().nullable(),
+        }),
+      ),
+    )
+    .query(async ({ ctx, input }) => {
+      const now = new Date();
+
+      const coursesWithDetails = await ctx.db.query.courses.findMany({
+        where: eq(courses.ownerId, input.ownerId),
+      });
+
+      return coursesWithDetails.map((course) => {
+        let status = "next";
+        if (course.endDate < now) {
+          status = "finished";
+        } else if (course.startDate <= now) {
+          status = "started";
+        }
+
+        return {
+          status,
+          ...course,
+        };
+      });
+    }),
+
   getCourseBySlug: publicProcedure
     .input(z.object({ slug: z.string() }))
     .query(async ({ ctx, input }) => {

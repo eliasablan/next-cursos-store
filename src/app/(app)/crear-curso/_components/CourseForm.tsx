@@ -114,6 +114,7 @@ export default function CourseForm() {
   // Populates the form once the course data is loaded
   useEffect(() => {
     if (course) {
+      form.setValue("id", course.id ?? "");
       form.setValue("name", course.name ?? "");
       form.setValue("slug", course.slug);
       form.setValue("description", course.description ?? "");
@@ -126,7 +127,7 @@ export default function CourseForm() {
   async function onSubmit(values: CourseSchemaType) {
     const { slug } = await submitCourse(values);
 
-    router.push(`/cursos-creados/${slug}`);
+    router.push(`/cursos-publicados/${slug}`);
   }
 
   return (

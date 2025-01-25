@@ -1,9 +1,6 @@
 import {
   type LucideIcon,
-  BookText,
-  Rocket,
   Users,
-  ScrollText,
   Plus,
   Briefcase,
   SquareCheckBig,
@@ -64,8 +61,8 @@ export const links: SidebarLink[] = [
     roles: ["user"],
   },
   {
-    title: "Cursos creados",
-    href: "/cursos-creados",
+    title: "Cursos publicados",
+    href: "/cursos-publicados",
     icon: Briefcase,
     roles: ["user"],
   },
