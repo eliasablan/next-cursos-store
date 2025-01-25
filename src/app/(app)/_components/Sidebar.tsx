@@ -16,12 +16,10 @@ import { usePathname } from "next/navigation";
 import { links } from "@/lib/sidebar-links";
 
 export default function Sidebar() {
-  // const router = useRouter();
   const pathname = usePathname();
 
   const { data: session } = useSession();
   const role = session?.user.role;
-  console.log({ session });
 
   return (
     <div className="group flex h-full flex-col justify-between">
@@ -54,6 +52,7 @@ export default function Sidebar() {
                 >
                   {link.title}
                 </TooltipContent>
+                {link.separator && <Separator />}
               </Tooltip>
             ))}
           <Separator />
