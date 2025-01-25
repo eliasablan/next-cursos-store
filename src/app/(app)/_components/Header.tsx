@@ -15,9 +15,18 @@ import { Button } from "@/components/ui/button";
 import EncryptButton from "@/components/EncryptButton";
 import SearchBar from "@/components/SearchBar";
 import ProfileNavigation from "@/components/ProfileNavigation";
+import { links } from "@/lib/sidebar-links";
+import { Separator } from "@/components/ui/separator";
 
 export default async function Header() {
   const session = await auth();
+  const role = session?.user.role;
+  console.log({
+    links: links.filter((link) => {
+      return link.roles.length === 0 || link.roles.includes(role!);
+    }),
+    role,
+  });
 
   return (
     <header className="fixed inset-y-0 left-0 right-0 top-0 z-10 flex h-14 items-center justify-between border-y bg-card px-4 py-2">
@@ -38,33 +47,46 @@ export default async function Header() {
                   </SheetTitle>
                 </SheetHeader>
 
-                <Suspense fallback={<div>Cargando...</div>}>
-                  {!session && (
-                    <nav className="flex flex-col gap-2">
-                      <SheetClose asChild>
-                        <Button size="sm" asChild>
-                          <Link href="/ingresar">Ingresa</Link>
-                        </Button>
-                      </SheetClose>
-                    </nav>
-                  )}
-                </Suspense>
+                {/* <Suspense fallback={<div>Cargando...</div>}> */}
+                {session ? (
+                  <nav className="flex flex-col gap-4 py-4">
+                    {links
+                      .filter((link) => {
+                        return (
+                          link.roles.length === 0 || link.roles.includes(role!)
+                        );
+                      })
+                      .map((link) => (
+                        <SheetClose key={link.href}>
+                          <div className="flex flex-col gap-4">
+                            <Link
+                              href={link.href}
+                              className="flex items-center gap-4 px-1 text-muted-foreground hover:text-foreground"
+                            >
+                              <link.icon className="h-5 w-5" />
+                              {link.title}
+                            </Link>
+                            {link.separator && <Separator />}
+                          </div>
+                        </SheetClose>
+                      ))}
+                  </nav>
+                ) : (
+                  <nav className="flex flex-col gap-2">
+                    <SheetClose asChild>
+                      <Button size="sm" asChild>
+                        <Link href="/ingresar">Ingresa</Link>
+                      </Button>
+                    </SheetClose>
+                  </nav>
+                )}
+                {/* </Suspense> */}
               </div>
             </SheetContent>
           </Sheet>
           <EncryptButton />
         </div>
-        <nav className="hidden gap-4 md:flex">
-          {/* {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-muted-foreground hover:text-foreground flex items-center gap-4 px-1 text-sm"
-            >
-              {link.title}
-            </Link>
-          ))} */}
-        </nav>
+
         <div className="flex items-center gap-2">
           <Suspense fallback={<div>Cargando...</div>}>
             <SearchBar />
