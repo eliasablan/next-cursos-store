@@ -65,4 +65,31 @@ export const subscriptionRouter = createTRPCRouter({
 
       return response;
     }),
+
+  getStudentSubscriptions: protectedProcedure
+    .input(z.object({ studentId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.db.query.subscriptions.findMany({
+        where: eq(subscriptions.studentId, input.studentId),
+        with: {
+          course: true,
+        },
+      });
+
+      return response.map((subscription) => {
+        let status = "incoming";
+        if (subscription.course.endDate < new Date()) {
+          status = "finished";
+        } else {
+          if (subscription.course.startDate < new Date()) {
+            status = "coursing";
+          }
+        }
+
+        return {
+          status,
+          ...subscription,
+        };
+      });
+    }),
 });
