@@ -12,7 +12,7 @@ import { missionRouter } from "./routers/mission";
 export const appRouter = createTRPCRouter({
   user: userRouter,
   course: courseRouter,
-  subscription: subscriptionRouter,
+  subs: subscriptionRouter,
   mission: missionRouter,
 });
 

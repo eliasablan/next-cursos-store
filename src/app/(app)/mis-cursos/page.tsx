@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export default async function MisCursos() {
   const session = await auth();
-  const subscriptions = await api.subscription.getStudentSubscriptions({
+  const subscriptions = await api.subs.getStudentSubscriptions({
     studentId: session?.user.id ?? "",
   });
 
@@ -59,9 +59,7 @@ export default async function MisCursos() {
 }
 
 type TabProps = {
-  subscriptions: Awaited<
-    ReturnType<typeof api.subscription.getStudentSubscriptions>
-  >;
+  subscriptions: Awaited<ReturnType<typeof api.subs.getStudentSubscriptions>>;
   status: string;
   title: string;
 };

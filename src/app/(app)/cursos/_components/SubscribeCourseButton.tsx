@@ -13,18 +13,17 @@ export default function SubscribeCourseButton({
 }) {
   const utils = api.useUtils();
 
-  const { data: subscription, isLoading } =
-    api.subscription.isSubscribed.useQuery({
-      courseId: courseId,
-    });
+  const { data: subscription, isLoading } = api.subs.isSubscribed.useQuery({
+    courseId: courseId,
+  });
 
   const { mutateAsync: subscribe, isPending } =
-    api.subscription.changeSuscribeStatus.useMutation({
+    api.subs.changeSuscribeStatus.useMutation({
       onError: (error) => {
         toast.error(error.message);
       },
       onSettled: async () => {
-        await utils.subscription.isSubscribed.invalidate({ courseId });
+        await utils.subs.isSubscribed.invalidate({ courseId });
         if (subscription?.active) {
           toast.success("Subscripcion desactivada");
         } else {

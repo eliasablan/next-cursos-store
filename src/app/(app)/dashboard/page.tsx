@@ -64,7 +64,7 @@ export default async function page() {
 async function CoursesCarouselCard() {
   const session = await auth();
 
-  const subscriptions = await api.subscription.getStudentSubscriptions({
+  const subscriptions = await api.subs.getStudentSubscriptions({
     studentId: session?.user.id ?? "",
   });
 
@@ -103,10 +103,10 @@ async function CoursesCarouselCard() {
 }
 
 type CarouselCourse = Awaited<
-  ReturnType<typeof api.subscription.getStudentSubscriptions>
->[0]["course"];
+  ReturnType<typeof api.subs.getStudentSubscriptions>
+>[number]["course"];
 
-export function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
+function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
   return (
     <Carousel
       opts={{
@@ -160,9 +160,9 @@ export function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
 
 type CarouselReview = Awaited<
   ReturnType<typeof api.mission.getStudentReviews>
->[0];
+>[number];
 
-export function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
+function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
   return (
     <Carousel
       opts={{
