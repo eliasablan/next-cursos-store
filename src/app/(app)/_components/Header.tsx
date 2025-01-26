@@ -50,8 +50,8 @@ export default async function Header() {
                         );
                       })
                       .map((link) => (
-                        <>
-                          <SheetClose key={link.href} asChild>
+                        <div key={link.href} className="space-y-4">
+                          <SheetClose asChild>
                             <Link
                               href={link.href}
                               className="flex items-center gap-4 px-1 text-muted-foreground hover:text-foreground"
@@ -61,7 +61,7 @@ export default async function Header() {
                             </Link>
                           </SheetClose>
                           {link.separator && <Separator />}
-                        </>
+                        </div>
                       ))}
                   </nav>
                 ) : (
