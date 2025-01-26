@@ -45,4 +45,24 @@ export const subscriptionRouter = createTRPCRouter({
         });
       }
     }),
+
+  getSubscriptionByCourseId: protectedProcedure
+    .input(z.object({ courseId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.db.query.subscriptions.findFirst({
+        where: and(
+          eq(subscriptions.courseId, input.courseId),
+          eq(subscriptions.studentId, ctx.session.user.id),
+        ),
+        with: {
+          reviews: {
+            // with: {
+            //   conversation: true,
+            // },
+          },
+        },
+      });
+
+      return response;
+    }),
 });
