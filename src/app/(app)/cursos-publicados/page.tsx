@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Book, Briefcase, CalendarIcon, Plus } from "lucide-react";
+import { Book, Briefcase, CalendarIcon } from "lucide-react";
 import { auth } from "@/server/auth";
 import { api } from "@/trpc/server";
 import { Button } from "@/components/ui/button";
