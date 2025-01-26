@@ -4,6 +4,7 @@ import { eq, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
 import { registerSchema } from "@/lib/formSchemas/register";
+import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
   register: publicProcedure
@@ -48,5 +49,13 @@ export const userRouter = createTRPCRouter({
         image,
         id,
       };
+    }),
+
+  getUserById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.query.users.findFirst({
+        where: eq(users.id, input.id),
+      });
     }),
 });

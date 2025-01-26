@@ -38,13 +38,6 @@ export default async function page() {
           <Briefcase className="mb-1 mr-2 inline size-6" />
           Cursos publicados
         </h1>
-        <Button size="sm" asChild>
-          <Link href="/crear-curso">
-            <span>Crear curso</span>
-            <Plus className="ml-2 size-4" />
-            <span className="sr-only">Add</span>
-          </Link>
-        </Button>
       </div>
 
       <Tabs defaultValue="started">

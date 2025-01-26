@@ -5,7 +5,7 @@ import {
 } from "@/server/api/trpc";
 import { z } from "zod";
 import { courses } from "@/server/db/schema";
-import { eq } from "drizzle-orm";
+import { and, eq, gte, lt, lte } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { CourseSchema } from "@/schemas/course";
 
@@ -124,4 +124,37 @@ export const courseRouter = createTRPCRouter({
 
       return course;
     }),
+
+  getFinishedCourses: protectedProcedure.query(async ({ ctx }) => {
+    const queriedCourses = ctx.db.query.courses.findMany({
+      where: and(
+        lt(courses.startDate, new Date()),
+        lte(courses.endDate, new Date()),
+      ),
+      orderBy: (courses, { desc }) => [desc(courses.endDate)],
+    });
+
+    return queriedCourses;
+  }),
+
+  getStartedCourses: protectedProcedure.query(async ({ ctx }) => {
+    const queriedCourses = ctx.db.query.courses.findMany({
+      where: and(
+        lt(courses.startDate, new Date()),
+        gte(courses.endDate, new Date()),
+      ),
+      orderBy: (courses, { asc }) => [asc(courses.startDate)],
+    });
+
+    return queriedCourses;
+  }),
+
+  getNextCourses: protectedProcedure.query(async ({ ctx }) => {
+    const queriedCourses = ctx.db.query.courses.findMany({
+      where: gte(courses.startDate, new Date()),
+      orderBy: (courses, { asc }) => [asc(courses.startDate)],
+    });
+
+    return queriedCourses;
+  }),
 });

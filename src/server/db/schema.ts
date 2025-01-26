@@ -171,6 +171,7 @@ export const subscriptions = pgTable("subscription", {
   studentId: varchar("student_id", { length: 255 })
     .notNull()
     .references(() => users.id),
+  active: boolean("active").default(true),
   paid: boolean("paid").default(false),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)

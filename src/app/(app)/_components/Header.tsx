@@ -21,12 +21,6 @@ import { Separator } from "@/components/ui/separator";
 export default async function Header() {
   const session = await auth();
   const role = session?.user.role;
-  console.log({
-    links: links.filter((link) => {
-      return link.roles.length === 0 || link.roles.includes(role!);
-    }),
-    role,
-  });
 
   return (
     <header className="fixed inset-y-0 left-0 right-0 top-0 z-10 flex h-14 items-center justify-between border-y bg-card px-4 py-2">

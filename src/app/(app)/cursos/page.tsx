@@ -1,12 +1,43 @@
+import React from "react";
+import type { Metadata } from "next";
+import { api } from "@/trpc/server";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import CoursesGrid from "./_components/CoursesCatalog";
 import { Box } from "lucide-react";
 
-export default async function Cursos() {
+export const metadata: Metadata = {
+  title: "Cursos",
+};
+
+export default async function page() {
+  const nextCourses = await api.course.getNextCourses();
+  const finishedCourses = await api.course.getFinishedCourses();
+  const startedCourses = await api.course.getStartedCourses();
+
   return (
-    <main className="grid w-full grid-cols-1 gap-4 gap-x-4 lg:grid-cols-3">
-      <h1 className="col-span-full flex items-center gap-2 text-2xl font-semibold">
+    <main className="grid w-full p-4">
+      <h1 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
         <Box className="size-6" />
-        Cursos
+        Catálogo de cursos
       </h1>
+      <Tabs defaultValue="next">
+        <div className="flex items-center">
+          <TabsList>
+            <TabsTrigger value="finished">Finalizados</TabsTrigger>
+            <TabsTrigger value="started">En progreso</TabsTrigger>
+            <TabsTrigger value="next">Próximos</TabsTrigger>
+          </TabsList>
+        </div>
+        <TabsContent value="finished">
+          <CoursesGrid courses={finishedCourses} />
+        </TabsContent>
+        <TabsContent value="started">
+          <CoursesGrid courses={startedCourses} openSubscribtion={true} />
+        </TabsContent>
+        <TabsContent value="next">
+          <CoursesGrid courses={nextCourses} openSubscribtion={true} />
+        </TabsContent>
+      </Tabs>
     </main>
   );
 }
