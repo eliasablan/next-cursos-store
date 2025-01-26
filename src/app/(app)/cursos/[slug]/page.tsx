@@ -42,15 +42,14 @@ import Video from "next-video";
 import Link from "next/link";
 
 interface CursoProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export const generateMetadata = async ({ params }: CursoProps) => {
-  const curso = await api.course.getCourseBySlug({
-    slug: params.slug,
-  });
+  const { slug } = await params;
+  const curso = await api.course.getCourseBySlug({ slug });
   const title = curso?.name;
   const description = curso?.description;
 
@@ -60,12 +59,13 @@ export const generateMetadata = async ({ params }: CursoProps) => {
   };
 };
 
-export default async function Curso({ params }: { params: { slug: string } }) {
-  const course = await api.course.getCourseBySlug({ slug: params.slug });
+export default async function Curso({ params }: CursoProps) {
+  const { slug } = await params;
+  const course = await api.course.getCourseBySlug({ slug });
 
   if (!course) return null;
 
-  const subscription = await api.subscription.getSubscriptionByCourseId({
+  const subscription = await api.subs.getSubscriptionByCourseId({
     courseId: course.id,
   });
 
