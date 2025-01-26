@@ -79,8 +79,5 @@ EXPOSE 3000
 # Establece la variable de entorno para el puerto
 ENV PORT=3000
 
-# Ejecuta las migraciones de la base de datos antes de iniciar la aplicación
-RUN npm run db:migrateprod
-
 # Comando para iniciar la aplicación
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "npm run db:migrateprod && node server.js"]
