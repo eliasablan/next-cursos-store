@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { api } from "@/trpc/server";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import CoursesGrid from "./_components/CoursesCatalog";
-import { Box } from "lucide-react";
+import { LibraryBig } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Cursos",
@@ -15,9 +15,9 @@ export default async function page() {
   const startedCourses = await api.course.getStartedCourses();
 
   return (
-    <main className="grid w-full p-4">
+    <main className="grid w-full">
       <h1 className="mb-4 flex items-center gap-2 text-2xl font-semibold">
-        <Box className="size-6" />
+        <LibraryBig className="size-6" />
         Catálogo de cursos
       </h1>
       <Tabs defaultValue="next">
