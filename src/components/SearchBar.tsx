@@ -209,7 +209,7 @@ export default function SearchBar() {
           <Search className="size-5" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="bg-popover">
         <DrawerHeader className="sr-only">
           <DrawerTitle>Buscar</DrawerTitle>
         </DrawerHeader>
