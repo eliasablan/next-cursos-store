@@ -66,7 +66,7 @@ export default function SearchBar() {
           variant="outline"
           className="size-10"
         >
-          <Search className="size-5 text-accent-foreground" />
+          <Search className="size-5" />
         </Button>
         <CommandDialog
           dialogTitle="Buscador"
@@ -206,7 +206,7 @@ export default function SearchBar() {
           variant="outline"
           className="size-10 md:hidden"
         >
-          <Search className="size-5 text-accent-foreground" />
+          <Search className="size-5" />
         </Button>
       </DrawerTrigger>
       <DrawerContent>
