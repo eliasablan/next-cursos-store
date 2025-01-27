@@ -9,19 +9,20 @@ import {
   users,
   verificationTokens,
 } from "@/server/db/schema";
-import { Resend } from "resend";
+// import { Resend } from "resend";
 import { eq, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import bcrypt from "bcrypt";
 import { registerSchema } from "@/lib/formSchemas/register";
 import { z } from "zod";
 import { UpdateUserSchema } from "@/app/(app)/perfil/_components/schemas/update-user";
-import { env } from "@/env";
-import { EmailTemplate } from "@/app/(auth)/verify-email/_components/EmailTemplate";
+// import { env } from "@/env";
+// import { EmailTemplate } from "@/app/(auth)/verify-email/_components/EmailTemplate";
 import { UpdatePasswordSchema } from "@/app/(app)/perfil/seguridad/_components/schemas/update-password";
-import { ForgotPasswordEmailTemplate } from "@/app/(auth)/forgot-password/_components/ForgotPasswordEmailTemplate";
+// import { ForgotPasswordEmailTemplate } from "@/app/(auth)/forgot-password/_components/ForgotPasswordEmailTemplate";
 import { ForgotPasswordSchema } from "@/app/(auth)/forgot-password/_components/schemas/forgot-password";
-const resend = new Resend(env.RESEND_API_KEY);
+
+// const resend = new Resend(env.RESEND_API_KEY);
 
 export const userRouter = createTRPCRouter({
   register: publicProcedure
@@ -159,37 +160,37 @@ export const userRouter = createTRPCRouter({
           .where(eq(verificationTokens.email, user.email));
       }
 
-      const newToken = {
-        email: user.email,
-        token: crypto.randomUUID(),
-        expires: new Date(Date.now() + 3600 * 1000),
-      };
+      // const newToken = {
+      //   email: user.email,
+      //   token: crypto.randomUUID(),
+      //   expires: new Date(Date.now() + 3600 * 1000),
+      // };
 
-      const results = await ctx.db
-        .insert(verificationTokens)
-        .values(newToken)
-        .returning();
+      // const results = await ctx.db
+      //   .insert(verificationTokens)
+      //   .values(newToken)
+      //   .returning();
 
-      const [verificationToken] = results;
+      // const [verificationToken] = results;
 
-      const { data, error } = await resend.emails.send({
-        from: env.RESEND_EMAIL_SENDER,
-        to: user.email,
-        subject: "Verificación de correo en IA Coders",
-        react: EmailTemplate({
-          username: user.email,
-          token: verificationToken!.token,
-        }),
-      });
+      // const { data, error } = await resend.emails.send({
+      //   from: env.RESEND_EMAIL_SENDER,
+      //   to: user.email,
+      //   subject: "Verificación de correo en IA Coders",
+      //   react: EmailTemplate({
+      //     username: user.email,
+      //     token: verificationToken!.token,
+      //   }),
+      // });
 
-      if (error) {
-        throw new TRPCError({
-          message: "Error al enviar el correo",
-          code: "INTERNAL_SERVER_ERROR",
-        });
-      }
+      // if (error) {
+      //   throw new TRPCError({
+      //     message: "Error al enviar el correo",
+      //     code: "INTERNAL_SERVER_ERROR",
+      //   });
+      // }
 
-      return data;
+      // return data;
     }),
 
   verifyEmail: publicProcedure
@@ -359,35 +360,35 @@ export const userRouter = createTRPCRouter({
           .where(eq(resetPasswordTokens.email, user.email));
       }
 
-      const newToken = {
-        email: user.email,
-        token: crypto.randomUUID(),
-        expires: new Date(Date.now() + 3600 * 1000),
-      };
+      // const newToken = {
+      //   email: user.email,
+      //   token: crypto.randomUUID(),
+      //   expires: new Date(Date.now() + 3600 * 1000),
+      // };
 
-      const results = await ctx.db
-        .insert(resetPasswordTokens)
-        .values(newToken)
-        .returning();
+      // const results = await ctx.db
+      //   .insert(resetPasswordTokens)
+      //   .values(newToken)
+      //   .returning();
 
-      const [verificationToken] = results;
-      const { data, error } = await resend.emails.send({
-        from: env.RESEND_EMAIL_SENDER,
-        to: user.email,
-        subject: "Cambio de contraseña en IA Coders",
-        react: ForgotPasswordEmailTemplate({
-          username: user.email,
-          token: verificationToken!.token,
-        }),
-      });
+      // const [verificationToken] = results;
+      // const { data, error } = await resend.emails.send({
+      //   from: env.RESEND_EMAIL_SENDER,
+      //   to: user.email,
+      //   subject: "Cambio de contraseña en IA Coders",
+      //   react: ForgotPasswordEmailTemplate({
+      //     username: user.email,
+      //     token: verificationToken!.token,
+      //   }),
+      // });
 
-      if (error) {
-        throw new TRPCError({
-          message: "Error al enviar el correo",
-          code: "INTERNAL_SERVER_ERROR",
-        });
-      }
+      // if (error) {
+      //   throw new TRPCError({
+      //     message: "Error al enviar el correo",
+      //     code: "INTERNAL_SERVER_ERROR",
+      //   });
+      // }
 
-      return data;
+      // return data;
     }),
 });
