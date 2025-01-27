@@ -1,41 +1,42 @@
 // Note: `useUploadThing` is IMPORTED FROM YOUR CODEBASE using the `generateReactHelpers` function
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
+// import { useState, useCallback, useEffect } from "react";
 // import { useDropzone } from "@uploadthing/react";
 // import { generateClientDropzoneAccept } from "uploadthing/client";
 
 // import { useUploadThing } from "~/hooks/use-uploadthing";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 // import { UploadThingError } from "uploadthing/server";
-import { useSession } from "next-auth/react";
-import { api } from "@/trpc/react";
+// import { useSession } from "next-auth/react";
+// import { api } from "@/trpc/react";
 
 export function useProfilePictureInput() {
-  const { data: session, update: updateSession } = useSession();
+  // const { data: session, update: updateSession } = useSession();
 
   const [providedFiles, setProvidedFiles] = useState<File[]>(() => []);
-  const [previewImage, setPreviewImage] = useState<string>(
-    session?.user?.image ?? "",
-  );
+  // const [previewImage, setPreviewImage] = useState<string>(
+  //   session?.user?.image ?? "",
+  // );
 
-  const [progress, setProgress] = useState<number>(0);
+  // const [progress, setProgress] = useState<number>(0);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    loadFiles(acceptedFiles);
-  }, []);
+  // const onDrop = useCallback((acceptedFiles: File[]) => {
+  //   loadFiles(acceptedFiles);
+  // }, []);
 
-  const { mutateAsync: updateUser, isPending: isUpdatingProfilePic } =
-    api.user.updateUser.useMutation({
-      onSuccess: async () => {
-        toast.success("Foto subida correctamente");
-        await updateSession();
-      },
-      onError: (error) => {
-        console.error("Error al subir la foto de perfil", error);
-        toast.error("Error al subir la foto de perfil");
-      },
-    });
+  // const { mutateAsync: updateUser, isPending: isUpdatingProfilePic } =
+  //   api.user.updateUser.useMutation({
+  //     onSuccess: async () => {
+  //       toast.success("Foto subida correctamente");
+  //       await updateSession();
+  //     },
+  //     onError: (error) => {
+  //       console.error("Error al subir la foto de perfil", error);
+  //       toast.error("Error al subir la foto de perfil");
+  //     },
+  //   });
 
   // const { mutateAsync: deleteFile, isPending: isDeletingOldProfilePic } =
   //   api.uploadThing.deleteFile.useMutation({
@@ -90,7 +91,7 @@ export function useProfilePictureInput() {
   useEffect(() => {
     const [image] = providedFiles;
     if (image) {
-      setPreviewImage(URL.createObjectURL(image));
+      // setPreviewImage(URL.createObjectURL(image));
     }
   }, [providedFiles]);
 
@@ -99,8 +100,8 @@ export function useProfilePictureInput() {
   };
 
   const removeFile = () => {
-    const placeholderPreviewImage = session?.user?.image ?? "";
-    setPreviewImage(placeholderPreviewImage);
+    // const placeholderPreviewImage = session?.user?.image ?? "";
+    // setPreviewImage(placeholderPreviewImage);
     setProvidedFiles([]);
   };
 
@@ -130,15 +131,15 @@ export function useProfilePictureInput() {
 
   return {
     providedFiles,
-    previewImage,
-    progress,
+    // previewImage,
+    // progress,
     // getRootProps,
     // getInputProps,
     // uploadFiles,
     loadFiles,
     removeFile,
     // isUploadingFiles,
-    isUpdatingProfilePic,
+    // isUpdatingProfilePic,
     // isDeletingOldProfilePic,
   };
 }
