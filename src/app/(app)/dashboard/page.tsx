@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -122,10 +121,11 @@ function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
               <Card className="flex h-full flex-col justify-between">
                 <CardHeader>
                   <CardTitle>{course.name}</CardTitle>
-                  <CardDescription>{course.description}</CardDescription>
+                  <CardDescription className="line-clamp-5">
+                    {course.description}
+                  </CardDescription>
                 </CardHeader>
-                <CardContent></CardContent>
-                <CardFooter>
+                <CardContent>
                   <div className="flex w-full flex-col items-end gap-4">
                     <Progress
                       value={(courseIndex + 1) * 10}
@@ -136,7 +136,7 @@ function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
                     />
                     <Book className="h-12 w-12" />
                   </div>
-                </CardFooter>
+                </CardContent>
               </Card>
             </Link>
           </CarouselItem>

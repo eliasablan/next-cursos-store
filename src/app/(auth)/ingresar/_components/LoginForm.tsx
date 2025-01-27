@@ -105,7 +105,7 @@ export default function LoginPreview() {
                     <div className="flex items-center justify-between">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Link
-                        href="#"
+                        href="/forgot-password"
                         className="ml-auto inline-block text-sm underline"
                       >
                         Forgot your password?

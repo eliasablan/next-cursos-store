@@ -31,7 +31,7 @@ type PhoneInputProps = Omit<
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
   React.forwardRef<React.ElementRef<typeof RPNInput.default>, PhoneInputProps>(
-    ({ className, onChange, ...props }, ref) => {
+    ({ className, onChange, international = false, ...props }, ref) => {
       return (
         <RPNInput.default
           ref={ref}
@@ -40,6 +40,7 @@ const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
           countrySelectComponent={CountrySelect}
           inputComponent={InputComponent}
           smartCaret={false}
+          international={international}
           /**
            * Handles the onChange event.
            *
@@ -147,7 +148,7 @@ const CountrySelectOption = ({
     <CommandItem className="gap-2" onSelect={() => onChange(country)}>
       <FlagComponent country={country} countryName={countryName} />
       <span className="flex-1 text-sm">{countryName}</span>
-      <span className="text-foreground/50 text-sm">{`+${RPNInput.getCountryCallingCode(country)}`}</span>
+      <span className="text-sm text-foreground/50">{`+${RPNInput.getCountryCallingCode(country)}`}</span>
       <CheckIcon
         className={`ml-auto size-4 ${country === selectedCountry ? "opacity-100" : "opacity-0"}`}
       />
@@ -159,7 +160,7 @@ const FlagComponent = ({ country, countryName }: RPNInput.FlagProps) => {
   const Flag = flags[country];
 
   return (
-    <span className="bg-foreground/20 flex h-4 w-6 overflow-hidden rounded-sm [&_svg]:size-full">
+    <span className="flex h-4 w-6 overflow-hidden rounded-sm bg-foreground/20 [&_svg]:size-full">
       {Flag && <Flag title={countryName} />}
     </span>
   );

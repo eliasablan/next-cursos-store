@@ -31,14 +31,10 @@ declare module "next-auth" {
       role: RoleEnum;
       email: string;
       phone?: string;
-      emailVerified?: Date;
+      emailVerified: Date | null;
+      hasPassword?: boolean;
     } & DefaultSession["user"];
   }
-
-  // interface User {
-  //   // ...other properties
-  //   role: RoleEnum;
-  // }
 }
 
 class NotFoundLoginError extends CredentialsSignin {
@@ -133,6 +129,10 @@ export const authConfig = {
 
       if (!user) return token;
 
+      if (user.password) {
+        token.hasPassword = true;
+      }
+
       token.role = user.role;
       token.name = user.name;
       token.picture = user.image;
@@ -160,6 +160,7 @@ export const authConfig = {
           email: token.email,
           emailVerified: token.emailVerified,
           phone: token.phone,
+          hasPassword: token.hasPassword,
         },
       };
     },

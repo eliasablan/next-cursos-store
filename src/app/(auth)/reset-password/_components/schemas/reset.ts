@@ -1,15 +1,12 @@
-import { isValidPhoneNumber } from "libphonenumber-js";
 import { z } from "zod";
 
-export const registerSchema = z
+// (?=.*[a-z])        almenos una letra en minúscula
+// (?=.*[A-Z])        almenos una letra en mayúscula
+// (?=.*\d)           almenos un número
+// (?=.*[@$!%*?&])    almenos un carácter especial
+
+export const ResetPasswordSchema = z
   .object({
-    name: z
-      .string()
-      .min(2, { message: "Name must be at least 2 characters long" }),
-    email: z.string().email({ message: "Invalid email address" }),
-    phone: z
-      .string()
-      .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
     password: z
       .string()
       .min(8, {
@@ -65,7 +62,14 @@ export const registerSchema = z
       ),
     confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Passwords do not match",
-  });
+  .refine(
+    (data) => {
+      return data.password === data.confirmPassword;
+    },
+    {
+      message: "Las contraseñas no coinciden.",
+      path: ["confirmPassword"],
+    },
+  );
+
+export type ResetPasswordSchemaType = z.infer<typeof ResetPasswordSchema>;

@@ -108,16 +108,9 @@ export default function Register() {
                 name="phone"
                 render={({ field }) => (
                   <FormItem className="grid gap-2">
-                    <FormLabel htmlFor="phone">Phone Number</FormLabel>
+                    <FormLabel htmlFor="phone">Teléfono</FormLabel>
                     <FormControl>
-                      <PhoneInput {...field} defaultCountry="TR" />
-                      {/* <Input
-                          id="phone"
-                          placeholder="555-123-4567"
-                          type="tel"
-                          autoComplete="tel"
-                          {...field}
-                        /> */}
+                      <PhoneInput {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -17,6 +17,9 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    NEXTAUTH_URL: z.string().url(),
+    RESEND_API_KEY: z.string(),
+    RESEND_EMAIL_SENDER: z.string(),
   },
 
   /**
@@ -38,6 +41,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_EMAIL_SENDER: process.env.RESEND_EMAIL_SENDER,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
