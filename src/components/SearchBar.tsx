@@ -2,15 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Bell,
-  Book,
-  Home,
-  LibraryBig,
-  Rocket,
-  Search,
-  User,
-} from "lucide-react";
+import { BookCopy, LibraryBig, Rocket, Search, Sword } from "lucide-react";
 import {
   Command,
   CommandDialog,
@@ -18,7 +10,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandShortcut,
   CommandGroup,
   CommandSeparator,
 } from "@/components/ui/command";
@@ -83,7 +74,7 @@ export default function SearchBar() {
           open={open}
         >
           <CommandInput
-            placeholder="Busca..."
+            placeholder="Buscar..."
             onValueChange={setSearchValue}
             value={searchValue}
           />
@@ -94,11 +85,22 @@ export default function SearchBar() {
                 onSelect={() => {
                   setOpen(false);
                   setSearchValue("");
+                  router.push("/cursos");
+                }}
+                value="Cursos"
+              >
+                <LibraryBig className="mr-2 h-4 w-4" />
+                <span>Cursos</span>
+              </CommandItem>
+              <CommandItem
+                onSelect={() => {
+                  setOpen(false);
+                  setSearchValue("");
                   router.push("/mis-cursos");
                 }}
                 value="Mis cursos"
               >
-                <LibraryBig className="mr-2 h-4 w-4" />
+                <BookCopy className="mr-2 h-4 w-4" />
                 <span>Mis cursos</span>
               </CommandItem>
               {/* {searchValue &&
@@ -151,7 +153,7 @@ export default function SearchBar() {
                   );
                 })} */}
             </CommandGroup>
-            <CommandSeparator />
+            {/* <CommandSeparator />
             <CommandGroup heading="Otros">
               <CommandItem
                 onSelect={() => {
@@ -163,9 +165,6 @@ export default function SearchBar() {
               >
                 <Home className="mr-2 h-4 w-4" />
                 <span>Inicio</span>
-                {/* <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
-                  ⌘I
-                </CommandShortcut> */}
               </CommandItem>
               <CommandItem
                 onSelect={() => {
@@ -177,9 +176,7 @@ export default function SearchBar() {
               >
                 <User className="mr-2 h-4 w-4" />
                 <span>Perfil</span>
-                {/* <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
-                  ⌘J
-                </CommandShortcut> */}
+             
               </CommandItem>
               <CommandItem
                 onSelect={() => {
@@ -191,11 +188,9 @@ export default function SearchBar() {
               >
                 <Bell className="mr-2 h-4 w-4" />
                 <span>Notificaciones</span>
-                {/* <CommandShortcut className="rounded border bg-muted p-1 text-muted-foreground">
-                  ⌘K
-                </CommandShortcut> */}
+         
               </CommandItem>
-            </CommandGroup>
+            </CommandGroup> */}
           </CommandList>
         </CommandDialog>
       </>
@@ -215,12 +210,12 @@ export default function SearchBar() {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader>
-          <DrawerTitle hidden>Buscar</DrawerTitle>
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>Buscar</DrawerTitle>
         </DrawerHeader>
         <Command>
           <CommandInput
-            placeholder="Busca..."
+            placeholder="Buscar..."
             onValueChange={setSearchValue}
             value={searchValue}
           />
@@ -235,7 +230,7 @@ export default function SearchBar() {
                 }}
                 value="Mis cursos"
               >
-                <Book className="mr-2 h-4 w-4" />
+                <BookCopy className="mr-2 h-4 w-4" />
                 <span>Mis cursos</span>
               </CommandItem>
               {/* {searchValue &&
@@ -266,7 +261,7 @@ export default function SearchBar() {
                 }}
                 value="Misiones"
               >
-                <Rocket className="mr-2 h-4 w-4" />
+                <Sword className="mr-2 h-4 w-4" />
                 <span>Misiones</span>
               </CommandItem>
               {/* {searchValue &&
@@ -287,7 +282,7 @@ export default function SearchBar() {
                   );
                 })} */}
             </CommandGroup>
-            <CommandSeparator />
+            {/* <CommandSeparator />
             <CommandGroup heading="Otros">
               <CommandItem
                 onSelect={() => {
@@ -331,7 +326,7 @@ export default function SearchBar() {
                   ⌘K
                 </CommandShortcut>
               </CommandItem>
-            </CommandGroup>
+            </CommandGroup> */}
           </CommandList>
         </Command>
       </DrawerContent>
