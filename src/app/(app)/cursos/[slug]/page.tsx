@@ -70,7 +70,7 @@ export default async function Curso({ params }: CursoProps) {
   });
 
   return (
-    <main className="grid w-full flex-1 auto-rows-max p-4">
+    <main className="grid w-full flex-1 auto-rows-max">
       {/* Header */}
       <div className="mb-4 flex items-center gap-4">
         <GoBackButton className="h-7 w-7" size="icon" variant="outline">

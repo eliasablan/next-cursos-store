@@ -117,7 +117,7 @@ function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
       <CarouselContent>
         {courses.map((course, courseIndex) => (
           <CarouselItem key={course.id} className="sm:basis-1/2 xl:basis-1/3">
-            <Link href={`/mis-cursos/${course.slug}`}>
+            <Link href={`/cursos/${course.slug}`}>
               <Card className="flex h-full flex-col justify-between">
                 <CardHeader>
                   <CardTitle>{course.name}</CardTitle>

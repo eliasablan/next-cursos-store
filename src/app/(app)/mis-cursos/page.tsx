@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -99,7 +98,6 @@ function SubscriptionsTab({ subscriptions, status, title }: TabProps) {
             ))}
           </div>
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </TabsContent>
   );
