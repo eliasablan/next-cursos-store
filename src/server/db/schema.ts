@@ -219,13 +219,50 @@ export const lessons = pgTable("lesson", {
   ),
 });
 
-export const lessonsRelations = relations(lessons, ({ one }) => ({
+export const lessonsRelations = relations(lessons, ({ one, many }) => ({
   course: one(courses, {
     fields: [lessons.courseId],
     references: [courses.id],
   }),
   mission: one(missions),
+  lessonAssistances: many(lessonAssistances),
 }));
+// #endregion
+
+// #region lessons assistances
+export const lessonAssistances = pgTable("lesson_assistances", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  lessonId: varchar("lessonId", { length: 255 })
+    .notNull()
+    .references(() => lessons.id),
+  assisted: boolean("assisted"),
+  studentId: varchar("studentId", { length: 255 })
+    .notNull()
+    .references(() => users.id),
+  createdAt: timestamp("createdAt", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updatedAt", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
+
+export const lessonsAssistancesRelations = relations(
+  lessonAssistances,
+  ({ one }) => ({
+    student: one(users, {
+      fields: [lessonAssistances.studentId],
+      references: [users.id],
+    }),
+    lesson: one(lessons, {
+      fields: [lessonAssistances.lessonId],
+      references: [lessons.id],
+    }),
+  }),
+);
 // #endregion
 
 // #region missions

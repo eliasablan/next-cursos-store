@@ -20,6 +20,7 @@ export const env = createEnv({
     NEXTAUTH_URL: z.string().url(),
     RESEND_API_KEY: z.string(),
     RESEND_EMAIL_SENDER: z.string(),
+    UPLOADTHING_TOKEN: z.string(),
   },
 
   /**
@@ -44,6 +45,7 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     RESEND_EMAIL_SENDER: process.env.RESEND_EMAIL_SENDER,
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

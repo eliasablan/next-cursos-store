@@ -4,8 +4,8 @@ import {
   protectedProcedure,
 } from "@/server/api/trpc";
 import { z } from "zod";
-import { courses } from "@/server/db/schema";
-import { and, eq, gte, lt, lte } from "drizzle-orm";
+import { courses, lessons } from "@/server/db/schema";
+import { and, eq, gte, lt, lte, asc, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { CourseSchema } from "@/schemas/course";
 
@@ -156,5 +156,62 @@ export const courseRouter = createTRPCRouter({
     });
 
     return queriedCourses;
+  }),
+
+  getCourseLessons: protectedProcedure
+    .input(
+      z.object({
+        slug: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const course = await ctx.db.query.courses.findFirst({
+        where: eq(courses.slug, input.slug),
+        with: {
+          lessons: {
+            orderBy: asc(lessons.order),
+            with: {
+              // lessonAssistances: true,
+              mission: true,
+            },
+          },
+        },
+      });
+
+      if (!course) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Curso no encontrado",
+        });
+      }
+
+      const { lessons: courseLessons } = course;
+
+      return courseLessons;
+    }),
+
+  getTeacherNextLessons: protectedProcedure.query(async ({ ctx }) => {
+    const teacherCourses = await ctx.db.query.courses.findMany({
+      where: and(
+        eq(courses.ownerId, ctx.session.user.id),
+        and(
+          gte(courses.endDate, new Date()),
+          lte(courses.startDate, new Date()),
+        ),
+      ),
+      with: {
+        lessons: {
+          where: or(
+            gte(lessons.newDate, new Date()),
+            gte(lessons.startDate, new Date()),
+          ),
+          with: {
+            mission: true,
+          },
+        },
+      },
+    });
+
+    return teacherCourses;
   }),
 });

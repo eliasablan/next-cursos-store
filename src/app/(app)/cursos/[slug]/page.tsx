@@ -1,17 +1,7 @@
 import React from "react";
-import {
-  ChevronLeft,
-  LockKeyhole,
-  RocketIcon,
-  SquarePlayIcon,
-} from "lucide-react";
+import { ChevronLeft, LockKeyhole } from "lucide-react";
 import GoBackButton from "@/components/GoBackButton";
 import { api } from "@/trpc/server";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Card,
   CardHeader,
@@ -19,15 +9,6 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { format } from "date-fns";
 import {
   Accordion,
@@ -38,8 +19,6 @@ import {
 import { es } from "date-fns/locale";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import Video from "next-video";
-import Link from "next/link";
 
 interface CursoProps {
   params: Promise<{
@@ -112,38 +91,28 @@ export default async function Curso({ params }: CursoProps) {
                       <AccordionItem key={index} value={index.toString()}>
                         <AccordionTrigger>{lesson.title}</AccordionTrigger>
                         <AccordionContent>
-                          <div className="flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-2">
-                              {lesson.mission ? (
+                          <div className="flex flex-col items-center justify-center gap-4">
+                            {/* <div className="flex w-full items-center gap-2">
+                              {lesson.mission && (
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <Link
-                                      href={`/misiones/${lesson.mission.id}`}
+                                      href={`/misiones/${lesson.mission?.id}`}
                                     >
-                                      <RocketIcon className="h-4 w-4" />
+                                      <SwordIcon className="h-4 w-4" />
                                     </Link>
                                   </TooltipTrigger>
                                   <TooltipContent>Misión</TooltipContent>
                                 </Tooltip>
-                              ) : null}
-                              {lesson.video ? (
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Link href={lesson.video}>
-                                      <SquarePlayIcon className="h-4 w-4" />
-                                    </Link>
-                                  </TooltipTrigger>
-                                  <TooltipContent>Video</TooltipContent>
-                                </Tooltip>
-                              ) : null}
-                            </div>
-                            {/* <div>
+                              )}
+                            </div> */}
+                            <div>
                               <p className="font-medium text-muted-foreground">
                                 {format(
                                   new Date(
                                     lesson.newDate
                                       ? lesson.newDate
-                                      : lesson.startDate,
+                                      : lesson.startDate!,
                                   ),
                                   "PPP 'a las' h:mm a",
                                   {
@@ -155,7 +124,7 @@ export default async function Curso({ params }: CursoProps) {
                                 <p className="text-xs font-medium text-destructive">
                                   Fecha original:{" "}
                                   {format(
-                                    new Date(lesson.startDate),
+                                    new Date(lesson.startDate!),
                                     "PPP 'a las' h:mm a",
                                     {
                                       locale: es,
@@ -163,10 +132,14 @@ export default async function Curso({ params }: CursoProps) {
                                   )}
                                 </p>
                               )}
-                            </div> */}
-                            <Dialog>
+                            </div>
+                            {/* <Dialog>
                               <DialogTrigger asChild>
-                                <Button variant="link" type="button">
+                                <Button
+                                  variant="link"
+                                  className="m-2"
+                                  type="button"
+                                >
                                   Ver más
                                 </Button>
                               </DialogTrigger>
@@ -184,12 +157,19 @@ export default async function Curso({ params }: CursoProps) {
                                       </DialogDescription>
                                     </DialogHeader>
                                     {lesson.video && (
-                                      <Video src={lesson.video} />
+                                      <video
+                                        src={lesson.video}
+                                        controls
+                                        // className="max-h-[300px] w-full object-contain"
+                                      >
+                                        Tu navegador no soporta la reproducción
+                                        de video.
+                                      </video>
                                     )}
                                   </DialogContent>
                                 </DialogHeader>
                               </DialogContent>
-                            </Dialog>
+                            </Dialog> */}
                           </div>
                         </AccordionContent>
                       </AccordionItem>

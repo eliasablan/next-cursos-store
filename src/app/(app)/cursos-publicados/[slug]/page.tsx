@@ -2,8 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-// import { api, HydrateClient } from "@/trpc/server";
-import { api } from "@/trpc/server";
+import { api, HydrateClient } from "@/trpc/server";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -11,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { auth } from "@/server/auth";
-// import LessonsCard from "../_components/LessonsCard";
+import LessonsCard from "../_components/LessonsCard";
 import GoBackButton from "@/components/GoBackButton";
 
 export default async function Curso({
@@ -44,9 +43,9 @@ export default async function Curso({
     );
   }
 
-  // void (await api.course.getCourseLessons.prefetch({
-  //   slug: params.slug,
-  // }));
+  void (await api.course.getCourseLessons.prefetch({
+    slug,
+  }));
 
   return (
     <main className="grid w-full flex-1 auto-rows-max gap-4 pb-4">
@@ -95,9 +94,9 @@ export default async function Curso({
             </CardContent>
           </Card>
           {/* LECCIONES */}
-          {/* <HydrateClient>
+          <HydrateClient>
             <LessonsCard />
-          </HydrateClient> */}
+          </HydrateClient>
         </div>
         <div className="grid auto-rows-max items-start gap-4">
           {/* FECHAS DEL CURSO */}

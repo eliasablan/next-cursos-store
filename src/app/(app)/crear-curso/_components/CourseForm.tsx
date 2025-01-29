@@ -187,7 +187,7 @@ export default function CourseForm() {
               {isDirty ? (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline">Descartar</Button>
+                    <Button variant="destructive">Descartar</Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
@@ -219,12 +219,12 @@ export default function CourseForm() {
                 <Button
                   type="button"
                   onClick={() => router.back()}
-                  variant="outline"
+                  variant="destructive"
                 >
                   Descartar
                 </Button>
               )}
-              <Button type="submit" size="sm" disabled={isPending}>
+              <Button type="submit" disabled={isPending}>
                 Guardar
               </Button>
             </div>
@@ -428,7 +428,7 @@ export default function CourseForm() {
             {isDirty ? (
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline">Descartar</Button>
+                  <Button variant="destructive">Descartar</Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -459,12 +459,12 @@ export default function CourseForm() {
               <Button
                 type="button"
                 onClick={() => router.back()}
-                variant="outline"
+                variant="destructive"
               >
                 Descartar
               </Button>
             )}
-            <Button type={"submit"} disabled={isPending} size="sm">
+            <Button type="submit" disabled={isPending}>
               Guardar
             </Button>
           </div>

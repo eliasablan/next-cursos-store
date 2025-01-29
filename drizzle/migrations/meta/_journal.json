@@ -15,6 +15,13 @@
       "when": 1737877859827,
       "tag": "0001_lively_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1738119205825,
+      "tag": "0002_robust_skrulls",
+      "breakpoints": true
     }
   ]
 }
