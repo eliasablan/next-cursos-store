@@ -1,18 +1,9 @@
-import { redirect } from "next/navigation";
-import { auth } from "@/server/auth";
-
-import Header from "./_components/Header";
-import Dashboard from "./_components/Dashboard";
+import Header from "@/components/Header";
+import Dashboard from "@/components/Dashboard";
 
 export default async function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const session = await auth();
-
-  if (!session) {
-    redirect("/ingresar");
-  }
-
   return (
     <>
       <Header />

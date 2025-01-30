@@ -1,4 +1,8 @@
-import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "@/server/api/trpc";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { subscriptions } from "@/server/db/schema";
@@ -46,9 +50,11 @@ export const subscriptionRouter = createTRPCRouter({
       }
     }),
 
-  getSubscriptionByCourseId: protectedProcedure
+  getSubscriptionByCourseId: publicProcedure
     .input(z.object({ courseId: z.string() }))
     .query(async ({ ctx, input }) => {
+      if (!ctx.session) return null;
+
       const response = await ctx.db.query.subscriptions.findFirst({
         where: and(
           eq(subscriptions.courseId, input.courseId),

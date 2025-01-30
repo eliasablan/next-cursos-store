@@ -125,7 +125,7 @@ export const courseRouter = createTRPCRouter({
       return course;
     }),
 
-  getFinishedCourses: protectedProcedure.query(async ({ ctx }) => {
+  getFinishedCourses: publicProcedure.query(async ({ ctx }) => {
     const queriedCourses = ctx.db.query.courses.findMany({
       where: and(
         lt(courses.startDate, new Date()),
@@ -137,7 +137,7 @@ export const courseRouter = createTRPCRouter({
     return queriedCourses;
   }),
 
-  getStartedCourses: protectedProcedure.query(async ({ ctx }) => {
+  getStartedCourses: publicProcedure.query(async ({ ctx }) => {
     const queriedCourses = ctx.db.query.courses.findMany({
       where: and(
         lt(courses.startDate, new Date()),
@@ -149,7 +149,7 @@ export const courseRouter = createTRPCRouter({
     return queriedCourses;
   }),
 
-  getNextCourses: protectedProcedure.query(async ({ ctx }) => {
+  getNextCourses: publicProcedure.query(async ({ ctx }) => {
     const queriedCourses = ctx.db.query.courses.findMany({
       where: gte(courses.startDate, new Date()),
       orderBy: (courses, { asc }) => [asc(courses.startDate)],

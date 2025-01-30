@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Mis cursos",
@@ -27,6 +28,11 @@ const STATUS = [
 
 export default async function page() {
   const session = await auth();
+
+  if (!session) {
+    redirect("/");
+  }
+
   const courses = await api.course.getPublishedCourses({
     ownerId: session?.user.id ?? "",
   });

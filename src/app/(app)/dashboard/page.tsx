@@ -22,8 +22,13 @@ import { es } from "date-fns/locale";
 import { Book, ChevronLeft, ChevronRight, LayoutDashboard } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default async function page() {
+  const session = await auth();
+
+  if (!session) redirect("/");
+
   const reviews = await api.mission.getStudentReviews();
 
   return (

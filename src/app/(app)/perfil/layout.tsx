@@ -2,12 +2,22 @@ import React from "react";
 import type { Metadata } from "next";
 import ProfilePageNav from "./_components/ProfilePageNav";
 import { User } from "lucide-react";
+import { auth } from "@/server/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Perfil",
 };
 
-export default function Profile({ children }: { children: React.ReactNode }) {
+export default async function Profile({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const session = await auth();
+
+  if (!session) redirect("/");
+
   return (
     <main className="relative grid w-full grid-cols-6 gap-4 pb-4">
       <h1 className="col-span-full flex items-center gap-2 text-2xl font-semibold">

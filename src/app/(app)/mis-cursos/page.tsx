@@ -10,9 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default async function MisCursos() {
+export default async function page() {
   const session = await auth();
+
+  if (!session) redirect("/");
+
   const subscriptions = await api.subs.getStudentSubscriptions({
     studentId: session?.user.id ?? "",
   });

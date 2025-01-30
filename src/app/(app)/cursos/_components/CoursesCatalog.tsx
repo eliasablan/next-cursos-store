@@ -14,14 +14,16 @@ import {
 import SubscribeCourseButton from "./SubscribeCourseButton";
 import Link from "next/link";
 import { Label } from "@/components/ui/label";
+import { auth } from "@/server/auth";
 
-export default function CoursesGrid({
+export default async function CoursesGrid({
   courses,
   openSubscribtion,
 }: {
   courses: Awaited<ReturnType<typeof api.course.getNextCourses>>;
   openSubscribtion?: boolean;
 }) {
+  const session = await auth();
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {courses.map(async (course) => {
@@ -65,7 +67,7 @@ export default function CoursesGrid({
                 </div>
               </Link>
             </CardContent>
-            {openSubscribtion && (
+            {session && openSubscribtion && (
               <CardFooter className="h-fit">
                 <div className="flex w-full justify-end">
                   <SubscribeCourseButton courseId={course.id} />
