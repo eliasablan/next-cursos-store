@@ -7,8 +7,8 @@ function TopLightHero() {
       subtitle="Crea, vende y compra cursos en un solo lugar. Conéctate con una comunidad de aprendices y educadores."
       actions={[
         {
-          label: "Prueba la Demo",
-          href: "/ingresar",
+          label: "Revisa nuestro cursos",
+          href: "/cursos",
           variant: "outline",
         },
         {

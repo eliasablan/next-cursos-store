@@ -16,7 +16,7 @@ export default async function Profile({
 }) {
   const session = await auth();
 
-  if (!session) redirect("/");
+  if (!session) redirect("/ingresar");
 
   return (
     <main className="relative grid w-full grid-cols-6 gap-4 pb-4">

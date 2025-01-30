@@ -17,6 +17,7 @@ import SearchBar from "@/components/SearchBar";
 import ProfileNavigation from "@/components/ProfileNavigation";
 import { links } from "@/lib/sidebar-links";
 import { Separator } from "@/components/ui/separator";
+import { HomeNavigation, MobileHomeNavigation } from "./HomeNavigation";
 
 export default async function Header() {
   const session = await auth();
@@ -40,6 +41,8 @@ export default async function Header() {
                     <EncryptButton />
                   </SheetTitle>
                 </SheetHeader>
+
+                <MobileHomeNavigation />
 
                 {session ? (
                   <nav className="flex flex-col gap-4 py-4">
@@ -78,6 +81,8 @@ export default async function Header() {
           </Sheet>
           <EncryptButton />
         </div>
+
+        <HomeNavigation />
 
         <div className="flex items-center gap-2">
           <Suspense fallback={<div>Cargando...</div>}>

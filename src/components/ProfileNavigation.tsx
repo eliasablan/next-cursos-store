@@ -95,9 +95,7 @@ export default function ProfileNavigation() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         {session ? (
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: "/ingresar" })}
-          >
+          <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
             Cerrar sesión
             <svg
               className="absolute right-2"

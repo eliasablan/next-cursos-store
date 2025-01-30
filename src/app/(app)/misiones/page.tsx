@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export default async function page() {
   const session = await auth();
 
-  if (!session) redirect("/");
+  if (!session) redirect("/ingresar");
 
   return (
     <main className="grid w-full grid-cols-1 gap-4 gap-x-4 lg:grid-cols-3">

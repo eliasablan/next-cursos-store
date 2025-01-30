@@ -110,7 +110,7 @@ export default function Register() {
                   <FormItem className="grid gap-2">
                     <FormLabel htmlFor="phone">Teléfono</FormLabel>
                     <FormControl>
-                      <PhoneInput {...field} />
+                      <PhoneInput defaultCountry="VE" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
