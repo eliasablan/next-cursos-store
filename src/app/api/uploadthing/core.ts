@@ -104,7 +104,7 @@ export const uploadThingFileRouter = {
       return { userId: user.id };
     })
     .onUploadError((error) => {
-      console.log("Error al subir el video de la lección.", error);
+      console.error("Error al subir el video de la lección.", error);
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback

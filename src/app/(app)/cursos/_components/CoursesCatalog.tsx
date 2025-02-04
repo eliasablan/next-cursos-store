@@ -67,7 +67,7 @@ export default async function CoursesGrid({
                 </div>
               </Link>
             </CardContent>
-            {session && openSubscribtion && (
+            {openSubscribtion && teacher?.id !== session?.user.id && (
               <CardFooter className="h-fit">
                 <div className="flex w-full justify-end">
                   <SubscribeCourseButton courseId={course.id} />

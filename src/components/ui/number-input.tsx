@@ -47,14 +47,14 @@ export default function NumberInput({
     >
       <Group
         className={cn(
-          "relative inline-flex h-10 w-full items-center overflow-hidden whitespace-nowrap border border-input text-sm shadow-sm shadow-black/5 transition-shadow data-[focus-within]:border-ring data-[disabled]:opacity-50 data-[focus-within]:outline-none data-[focus-within]:ring-[3px] data-[focus-within]:ring-ring/20",
+          "relative inline-flex h-10 w-full items-center overflow-hidden whitespace-nowrap text-sm shadow-sm shadow-black/5 ring-offset-background transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[focus-within]:rounded-md data-[focus-within]:border-ring data-[disabled]:opacity-50 data-[focus-within]:outline-none data-[focus-within]:ring-[3px] data-[focus-within]:ring-ring/20",
           className,
         )}
       >
         <Button
           slot="decrement"
           className={cn(
-            "-ms-px flex aspect-square h-[inherit] items-center justify-center rounded-s-md border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground",
+            "flex aspect-square h-[inherit] items-center justify-center rounded-s-md border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground",
             disabled && "pointer-events-none opacity-50",
           )}
         >
@@ -62,7 +62,7 @@ export default function NumberInput({
         </Button>
 
         <Input
-          className="h-10 w-full grow bg-background px-3 py-2 text-center tabular-nums text-foreground focus:outline-none"
+          className="h-10 w-full grow border-y border-input bg-background px-3 py-2 text-center tabular-nums text-foreground focus:outline-none"
           id={id}
           name={name}
         />
@@ -70,7 +70,7 @@ export default function NumberInput({
         <Button
           slot="increment"
           className={cn(
-            "-me-px flex aspect-square h-[inherit] items-center justify-center rounded-e-md border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground",
+            "flex aspect-square h-[inherit] items-center justify-center rounded-e-md border border-input bg-background text-sm text-muted-foreground/80 transition-shadow hover:bg-accent hover:text-foreground",
             disabled && "pointer-events-none opacity-50",
           )}
         >

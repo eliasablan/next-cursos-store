@@ -22,6 +22,9 @@ import { useForm } from "react-hook-form";
 import { MissionSchema, type MissionSchemaType } from "@/schemas/mission";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
+import { es } from "date-fns/locale";
+import NumberInput from "@/components/ui/number-input";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 // #endregion
 
 // #region Types
@@ -58,10 +61,11 @@ export default function MissionForm({ lessonId, mission }: MissionFormProps) {
         }
       },
       onError: (e) => {
+        console.error(e);
         toast.error(e.message);
       },
-      onSettled: async (data, error) => {
-        console.error(error);
+      onSettled: async (data) => {
+        console.log({ data });
         await utils.lesson.getLessonMission.invalidate({ lessonId });
         await utils.mission.getStudentPendingMissions.invalidate();
         await utils.mission.getTeacherPendingReviews.invalidate();
@@ -85,7 +89,7 @@ export default function MissionForm({ lessonId, mission }: MissionFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <div className="flex flex-col justify-between gap-4 rounded-md bg-secondary p-4">
+        <div className="mb-4 flex flex-col justify-between gap-4 rounded-md">
           <FormField
             control={form.control}
             name="title"
@@ -114,6 +118,8 @@ export default function MissionForm({ lessonId, mission }: MissionFormProps) {
                     granularity="minute"
                     placeholder="Hora y fecha de entrega"
                     hourCycle={12}
+                    locale={es}
+                    modal={true}
                     {...field}
                   />
                 </FormControl>
@@ -121,24 +127,19 @@ export default function MissionForm({ lessonId, mission }: MissionFormProps) {
               </FormItem>
             )}
           />
-          {/* <FormField
+          <FormField
             control={form.control}
             name="score"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Puntuación</FormLabel>
                 <FormControl>
-                  <NumberInput
-                    className="rounded-none"
-                    min={1}
-                    max={50}
-                    {...field}
-                  />
+                  <NumberInput min={1} max={50} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <FormField
             control={form.control}
             name="instructions"
@@ -155,14 +156,23 @@ export default function MissionForm({ lessonId, mission }: MissionFormProps) {
               </FormItem>
             )}
           />
-          <Button disabled={isPending}>
-            {isPending
-              ? "Guardando..."
-              : mission
-                ? "Modificar misión"
-                : "Crear misión"}
-          </Button>
         </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button type="button" variant="destructive">
+              Cerrar
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button disabled={isPending}>
+              {isPending
+                ? "Guardando..."
+                : mission
+                  ? "Guardar cambios"
+                  : "Crear misión"}
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </form>
     </Form>
   );

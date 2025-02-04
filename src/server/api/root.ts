@@ -5,6 +5,9 @@ import { subscriptionRouter } from "./routers/subscription";
 import { missionRouter } from "./routers/mission";
 import { lessonRouter } from "./routers/lesson";
 import { uploadThingRouter } from "./routers/uploadthing";
+import { paymentRouter } from "./routers/payment";
+import { messageRouter } from "./routers/message";
+import { documentReviewRouter } from "./routers/document-review";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +21,9 @@ export const appRouter = createTRPCRouter({
   mission: missionRouter,
   lesson: lessonRouter,
   uploadThing: uploadThingRouter,
+  payment: paymentRouter,
+  message: messageRouter,
+  documentReview: documentReviewRouter,
 });
 
 // export type definition of API

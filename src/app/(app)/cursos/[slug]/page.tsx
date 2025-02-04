@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronLeft, LockKeyhole } from "lucide-react";
+import { ChevronLeft, SwordIcon } from "lucide-react";
 import GoBackButton from "@/components/GoBackButton";
 import { api } from "@/trpc/server";
 import {
@@ -9,6 +9,7 @@ import {
   CardContent,
   CardDescription,
 } from "@/components/ui/card";
+import Link from "next/link";
 import { format } from "date-fns";
 import {
   Accordion,
@@ -19,6 +20,17 @@ import {
 import { es } from "date-fns/locale";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import SubscriptionPaymentButton from "../_components/SubscriptionPaymentButton";
+import { Button } from "@/components/ui/button";
+import { auth } from "@/server/auth";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogTrigger,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogDescription,
+} from "@/components/ui/responsive-dialog";
 
 interface CursoProps {
   params: Promise<{
@@ -41,7 +53,7 @@ export const generateMetadata = async ({ params }: CursoProps) => {
 export default async function Curso({ params }: CursoProps) {
   const { slug } = await params;
   const course = await api.course.getCourseBySlug({ slug });
-
+  const session = await auth();
   if (!course) return null;
 
   const subscription = await api.subs.getSubscriptionByCourseId({
@@ -81,45 +93,29 @@ export default async function Curso({ params }: CursoProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {!subscription?.paid ? (
-                  <div className="flex items-center justify-center p-2">
-                    <LockKeyhole className="h-8 w-8" />
-                  </div>
-                ) : (
+                {subscription?.paid || session?.user.id === course.ownerId ? (
                   <Accordion type="single" collapsible>
                     {course?.lessons.map((lesson, index) => (
                       <AccordionItem key={index} value={index.toString()}>
                         <AccordionTrigger>{lesson.title}</AccordionTrigger>
                         <AccordionContent>
-                          <div className="flex flex-col items-center justify-center gap-4">
-                            {/* <div className="flex w-full items-center gap-2">
-                              {lesson.mission && (
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Link
-                                      href={`/misiones/${lesson.mission?.id}`}
-                                    >
-                                      <SwordIcon className="h-4 w-4" />
-                                    </Link>
-                                  </TooltipTrigger>
-                                  <TooltipContent>Misión</TooltipContent>
-                                </Tooltip>
+                          <div className="flex flex-col items-center gap-2">
+                            <div className="flex flex-col items-center justify-center gap-2">
+                              {(lesson.newDate ?? lesson.startDate) && (
+                                <p className="font-medium text-muted-foreground">
+                                  {format(
+                                    new Date(
+                                      lesson.newDate
+                                        ? lesson.newDate
+                                        : lesson.startDate!,
+                                    ),
+                                    "PPP 'a las' h:mm a",
+                                    {
+                                      locale: es,
+                                    },
+                                  )}
+                                </p>
                               )}
-                            </div> */}
-                            <div>
-                              <p className="font-medium text-muted-foreground">
-                                {format(
-                                  new Date(
-                                    lesson.newDate
-                                      ? lesson.newDate
-                                      : lesson.startDate!,
-                                  ),
-                                  "PPP 'a las' h:mm a",
-                                  {
-                                    locale: es,
-                                  },
-                                )}
-                              </p>
                               {lesson.newDate && (
                                 <p className="text-xs font-medium text-destructive">
                                   Fecha original:{" "}
@@ -132,49 +128,61 @@ export default async function Curso({ params }: CursoProps) {
                                   )}
                                 </p>
                               )}
+                              {lesson.mission && (
+                                <Button variant="link" asChild>
+                                  <Link
+                                    href={`/misiones/${lesson.mission?.id}`}
+                                  >
+                                    <SwordIcon className="mr-1 h-4 w-4" />
+                                    {lesson.mission.title}
+                                  </Link>
+                                </Button>
+                              )}
                             </div>
-                            {/* <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="link"
-                                  className="m-2"
-                                  type="button"
-                                >
+                            <ResponsiveDialog>
+                              <ResponsiveDialogTrigger asChild>
+                                <Button variant="outline" type="button">
                                   Ver más
                                 </Button>
-                              </DialogTrigger>
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle>{lesson.title}</DialogTitle>
-                                  <DialogDescription>
+                              </ResponsiveDialogTrigger>
+                              <ResponsiveDialogContent>
+                                <ResponsiveDialogHeader>
+                                  <ResponsiveDialogTitle>
+                                    {lesson.title}
+                                  </ResponsiveDialogTitle>
+                                  <ResponsiveDialogDescription>
                                     {lesson.description}
-                                  </DialogDescription>
-                                  <DialogContent showCloseButton={false}>
-                                    <DialogHeader>
-                                      <DialogTitle>{lesson.title}</DialogTitle>
-                                      <DialogDescription>
+                                  </ResponsiveDialogDescription>
+                                  <ResponsiveDialogContent>
+                                    <ResponsiveDialogHeader>
+                                      <ResponsiveDialogTitle>
+                                        {lesson.title}
+                                      </ResponsiveDialogTitle>
+                                      <ResponsiveDialogDescription>
                                         {lesson.description}
-                                      </DialogDescription>
-                                    </DialogHeader>
+                                      </ResponsiveDialogDescription>
+                                    </ResponsiveDialogHeader>
                                     {lesson.video && (
                                       <video
                                         src={lesson.video}
                                         controls
-                                        // className="max-h-[300px] w-full object-contain"
+                                        className="max-h-[300px] w-full object-contain"
                                       >
                                         Tu navegador no soporta la reproducción
                                         de video.
                                       </video>
                                     )}
-                                  </DialogContent>
-                                </DialogHeader>
-                              </DialogContent>
-                            </Dialog> */}
+                                  </ResponsiveDialogContent>
+                                </ResponsiveDialogHeader>
+                              </ResponsiveDialogContent>
+                            </ResponsiveDialog>
                           </div>
                         </AccordionContent>
                       </AccordionItem>
                     ))}
                   </Accordion>
+                ) : (
+                  <SubscriptionPaymentButton courseId={course.id} />
                 )}
               </CardContent>
             </Card>

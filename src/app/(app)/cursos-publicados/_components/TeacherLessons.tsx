@@ -131,13 +131,13 @@ const LessonItem = ({ lesson }: { lesson: Lesson }) => {
                 </DialogDescription>
               </DialogHeader>
               <MissionForm lessonId={lesson.id} mission={lesson.mission} />
-              <DialogFooter>
+              {/* <DialogFooter>
                 <DialogClose asChild>
-                  <Button type="button" variant={"secondary"}>
+                  <Button type="button" variant="destructive">
                     Cerrar
                   </Button>
                 </DialogClose>
-              </DialogFooter>
+              </DialogFooter> */}
             </DialogContent>
           </Dialog>
         </div>

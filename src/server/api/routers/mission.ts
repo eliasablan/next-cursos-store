@@ -1,4 +1,5 @@
 import { MissionSchema, type MissionSchemaType } from "@/schemas/mission";
+import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { TRPCError } from "@trpc/server";
 import {
@@ -7,10 +8,86 @@ import {
   lessons,
   reviews,
   courses,
+  reviewDocuments,
 } from "@/server/db/schema";
-import { eq, and, lte, gte } from "drizzle-orm";
+import { eq, and, lte, gte, desc } from "drizzle-orm";
 
 export const missionRouter = createTRPCRouter({
+  getMissionById: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { id: missionId } = input;
+      console.log({ missionId });
+      const mission = await ctx.db.query.missions.findFirst({
+        where: eq(missions.id, missionId),
+        with: {
+          reviews: {
+            with: {
+              attachments: {
+                orderBy: [desc(reviewDocuments.solution)],
+              },
+              mission: {
+                with: {
+                  lesson: {
+                    with: {
+                      // lessonAssistances: true,
+                      course: {
+                        with: {
+                          teacher: {
+                            columns: {
+                              id: true,
+                              name: true,
+                              // username: true,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              subscription: {
+                with: {
+                  student: {
+                    columns: {
+                      id: true,
+                      name: true,
+                      // username: true,
+                      email: true,
+                      phone: true,
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+          lesson: {
+            with: {
+              course: {
+                with: {
+                  subscriptions: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!mission) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Misión no encontrada",
+        });
+      }
+
+      return mission;
+    }),
+
   getStudentReviews: protectedProcedure.query(async ({ ctx }) => {
     const studentSubscriptions = await ctx.db.query.subscriptions.findMany({
       where: and(eq(subscriptions.studentId, ctx.session.user.id)),

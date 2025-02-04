@@ -681,6 +681,7 @@ type DateTimePickerProps = {
    * Show the default month and time when popup the calendar. Default is the current Date().
    **/
   defaultPopupValue?: Date;
+  modal?: boolean;
 } & Pick<
   CalendarProps,
   "locale" | "weekStartsOn" | "showWeekNumber" | "showOutsideDays"
@@ -696,6 +697,7 @@ const DateTimePicker = React.forwardRef<
 >(
   (
     {
+      modal = false,
       locale = enUS,
       defaultPopupValue = new Date(new Date().setHours(0, 0, 0, 0)),
       value,
@@ -787,7 +789,7 @@ const DateTimePicker = React.forwardRef<
     }
 
     return (
-      <Popover>
+      <Popover modal={modal}>
         <PopoverTrigger asChild disabled={disabled}>
           <Button
             variant="outline"

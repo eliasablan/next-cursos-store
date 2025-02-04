@@ -76,6 +76,7 @@ function SubscriptionsTab({ subscriptions, status, title }: TabProps) {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {!subscriptions.length && <p>No tienes suscripciones</p>}
             {subscriptions.map((subscription) => (
               <Link
                 key={subscription.id}

@@ -32,7 +32,7 @@ export default async function page() {
           <CoursesGrid courses={finishedCourses} />
         </TabsContent>
         <TabsContent value="started">
-          <CoursesGrid courses={startedCourses} openSubscribtion={true} />
+          <CoursesGrid courses={startedCourses} />
         </TabsContent>
         <TabsContent value="next">
           <CoursesGrid courses={nextCourses} openSubscribtion={true} />

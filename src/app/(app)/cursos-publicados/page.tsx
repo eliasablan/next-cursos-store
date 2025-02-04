@@ -34,7 +34,7 @@ export default async function page() {
   }
 
   const courses = await api.course.getPublishedCourses({
-    ownerId: session?.user.id ?? "",
+    ownerId: session?.user.id,
   });
 
   return (

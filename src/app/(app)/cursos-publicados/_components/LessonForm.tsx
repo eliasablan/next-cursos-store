@@ -237,7 +237,6 @@ export function LessonForm({ lesson }: { lesson: LessonSchemaType }) {
               control={form.control}
               name="newDate"
               render={({ field }) => {
-                console.log({ id: form.getValues("id") });
                 return (
                   <FormItem className="flex flex-col">
                     <FormLabel className="text-lg font-semibold">

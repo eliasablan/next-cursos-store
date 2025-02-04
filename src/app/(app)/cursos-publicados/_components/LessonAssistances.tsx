@@ -53,7 +53,7 @@ export function LessonAssistances({ lessonId }: { lessonId?: string }) {
       //   }
       // },
       onError: (error) => {
-        console.log(error);
+        console.error(error);
         toast.error("Error al actualizar la asistencia del alumno");
       },
       onSettled: async () => {
