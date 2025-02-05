@@ -6,11 +6,11 @@ export const CourseSchema = z.object({
   name: z
     .string()
     .min(8, "El nombre del curso debe tener al menos 8 caracteres")
-    .max(35, "El nombre del curso no puede tener más de 35 caracteres"),
+    .max(50, "El nombre del curso no puede tener más de 50 caracteres"),
   slug: z
     .string()
     .min(5, "El slug debe tener al menos 5 caracteres")
-    .max(25, "El slug no puede tener más de 25 caracteres")
+    .max(35, "El slug no puede tener más de 35 caracteres")
     .refine(
       (value) => {
         const isSlug = new RegExp("^[a-z0-9]+(?:-[a-z0-9]+)*$");
@@ -28,6 +28,7 @@ export const CourseSchema = z.object({
       1024,
       "La descripción del curso no puede tener más de 1024 caracteres",
     ),
+  price: z.number(),
   startDate: z
     .date()
     .optional()

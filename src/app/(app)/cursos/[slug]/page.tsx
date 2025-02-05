@@ -182,7 +182,12 @@ export default async function Curso({ params }: CursoProps) {
                     ))}
                   </Accordion>
                 ) : (
-                  <SubscriptionPaymentButton courseId={course.id} />
+                  <SubscriptionPaymentButton
+                    courseId={course.id}
+                    courseSlug={slug}
+                    subscriptionId={subscription?.id}
+                    stripePriceId={course.stripePriceId!}
+                  />
                 )}
               </CardContent>
             </Card>

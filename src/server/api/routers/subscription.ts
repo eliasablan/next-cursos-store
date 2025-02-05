@@ -98,4 +98,21 @@ export const subscriptionRouter = createTRPCRouter({
         };
       });
     }),
+
+  updateSubscriptionPayment: publicProcedure
+    .input(
+      z.object({
+        subscriptionId: z.string(),
+        paid: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const [updatedSubscription] = await ctx.db
+        .update(subscriptions)
+        .set({ paid: input.paid })
+        .where(eq(subscriptions.id, input.subscriptionId))
+        .returning();
+
+      return updatedSubscription;
+    }),
 });

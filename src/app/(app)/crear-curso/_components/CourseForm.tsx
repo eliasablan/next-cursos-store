@@ -9,15 +9,15 @@ import { es } from "date-fns/locale";
 import { useParams, useRouter } from "next/navigation";
 import { CalendarIcon, ChevronLeft } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogClose,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogClose,
+  ResponsiveDialogTitle,
+  ResponsiveDialogTrigger,
+} from "@/components/ui/responsive-dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -44,6 +44,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import NumberInput from "@/components/ui/number-input";
 // #endregion
 
 // #region CourseForm
@@ -68,6 +69,7 @@ export default function CourseForm() {
       name: course?.name ?? "",
       slug: course?.slug ?? "",
       description: course?.description ?? "",
+      price: course?.stripePrice ?? 0,
       startDate: course?.startDate ?? undefined,
       endDate: course?.endDate ?? undefined,
       lessons: course?.lessons ?? [],
@@ -118,6 +120,7 @@ export default function CourseForm() {
       form.setValue("name", course.name ?? "");
       form.setValue("slug", course.slug);
       form.setValue("description", course.description ?? "");
+      form.setValue("price", course.stripePrice ?? 0);
       form.setValue("startDate", course.startDate);
       form.setValue("endDate", course.endDate);
     }
@@ -137,8 +140,8 @@ export default function CourseForm() {
           {/* HEADER */}
           <div className="mb-4 flex items-center gap-4">
             {isDirty ? (
-              <Dialog>
-                <DialogTrigger asChild>
+              <ResponsiveDialog>
+                <ResponsiveDialogTrigger asChild>
                   <Button
                     type="button"
                     variant="outline"
@@ -148,20 +151,22 @@ export default function CourseForm() {
                     <ChevronLeft className="h-4 w-4" />
                     <span className="sr-only">Back</span>
                   </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>¿Estás seguro?</DialogTitle>
-                    <DialogDescription>
+                </ResponsiveDialogTrigger>
+                <ResponsiveDialogContent>
+                  <ResponsiveDialogHeader>
+                    <ResponsiveDialogTitle>
+                      ¿Estás seguro?
+                    </ResponsiveDialogTitle>
+                    <ResponsiveDialogDescription>
                       Esta acción no se puede deshacer.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <DialogClose asChild>
+                    </ResponsiveDialogDescription>
+                  </ResponsiveDialogHeader>
+                  <ResponsiveDialogFooter>
+                    <ResponsiveDialogClose asChild>
                       <Button variant="outline" size="sm">
                         Cancelar
                       </Button>
-                    </DialogClose>
+                    </ResponsiveDialogClose>
                     <Button
                       onClick={() => {
                         router.back();
@@ -172,9 +177,9 @@ export default function CourseForm() {
                     >
                       Confirmar
                     </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                  </ResponsiveDialogFooter>
+                </ResponsiveDialogContent>
+              </ResponsiveDialog>
             ) : (
               <GoBackButton />
             )}
@@ -185,23 +190,25 @@ export default function CourseForm() {
             {/* BOTONES */}
             <div className="hidden items-center gap-2 md:ml-auto md:flex">
               {isDirty ? (
-                <Dialog>
-                  <DialogTrigger asChild>
+                <ResponsiveDialog>
+                  <ResponsiveDialogTrigger asChild>
                     <Button variant="destructive">Descartar</Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>¿Estás seguro?</DialogTitle>
-                      <DialogDescription>
+                  </ResponsiveDialogTrigger>
+                  <ResponsiveDialogContent>
+                    <ResponsiveDialogHeader>
+                      <ResponsiveDialogTitle>
+                        ¿Estás seguro?
+                      </ResponsiveDialogTitle>
+                      <ResponsiveDialogDescription>
                         Esta acción no se puede deshacer.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                      <DialogClose asChild>
+                      </ResponsiveDialogDescription>
+                    </ResponsiveDialogHeader>
+                    <ResponsiveDialogFooter>
+                      <ResponsiveDialogClose asChild>
                         <Button variant="outline" size="sm">
                           Cancelar
                         </Button>
-                      </DialogClose>
+                      </ResponsiveDialogClose>
                       <Button
                         onClick={() => {
                           router.back();
@@ -212,9 +219,9 @@ export default function CourseForm() {
                       >
                         Confirmar
                       </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                    </ResponsiveDialogFooter>
+                  </ResponsiveDialogContent>
+                </ResponsiveDialog>
               ) : (
                 <Button
                   type="button"
@@ -244,6 +251,7 @@ export default function CourseForm() {
                           <FormLabel>Nombre del curso</FormLabel>
                           <FormControl>
                             <Input
+                              className="h-10 bg-background"
                               placeholder="Dale nombre al curso"
                               {...field}
                             />
@@ -264,8 +272,30 @@ export default function CourseForm() {
                           </FormDescription>
                           <FormControl>
                             <Input
+                              className="h-10 bg-background"
                               placeholder="Asigna un slug único al curso"
                               maxLength={40}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="price"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Precio</FormLabel>
+                          <FormDescription>
+                            Precio del curso en USD
+                          </FormDescription>
+                          <FormControl>
+                            <NumberInput
+                              aria-label="Precio del curso en dólares"
+                              min={0}
+                              max={100}
                               {...field}
                             />
                           </FormControl>
@@ -426,23 +456,25 @@ export default function CourseForm() {
           {/* BOTONES */}
           <div className="mt-4 flex items-center justify-center gap-2 md:hidden">
             {isDirty ? (
-              <Dialog>
-                <DialogTrigger asChild>
+              <ResponsiveDialog>
+                <ResponsiveDialogTrigger asChild>
                   <Button variant="destructive">Descartar</Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>¿Estás seguro?</DialogTitle>
-                    <DialogDescription>
+                </ResponsiveDialogTrigger>
+                <ResponsiveDialogContent>
+                  <ResponsiveDialogHeader>
+                    <ResponsiveDialogTitle>
+                      ¿Estás seguro?
+                    </ResponsiveDialogTitle>
+                    <ResponsiveDialogDescription>
                       Esta acción no se puede deshacer.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter className="gap-2">
-                    <DialogClose asChild>
+                    </ResponsiveDialogDescription>
+                  </ResponsiveDialogHeader>
+                  <ResponsiveDialogFooter className="gap-2">
+                    <ResponsiveDialogClose asChild>
                       <Button variant="outline" size="sm">
                         Cancelar
                       </Button>
-                    </DialogClose>
+                    </ResponsiveDialogClose>
                     <Button
                       onClick={() => {
                         router.back();
@@ -452,9 +484,9 @@ export default function CourseForm() {
                     >
                       Confirmar
                     </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                  </ResponsiveDialogFooter>
+                </ResponsiveDialogContent>
+              </ResponsiveDialog>
             ) : (
               <Button
                 type="button"

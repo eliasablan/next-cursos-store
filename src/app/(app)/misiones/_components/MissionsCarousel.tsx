@@ -12,13 +12,13 @@ import {
   Clock,
 } from "lucide-react";
 
-import { auth } from "@/server/auth";
+// import { auth } from "@/server/auth";
 import { api } from "@/trpc/server";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+// import { Progress } from "@/components/ui/progress";
+// import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
   CarouselContent,

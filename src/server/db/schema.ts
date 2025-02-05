@@ -137,8 +137,11 @@ export const courses = pgTable("course", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: varchar("name", { length: 256 }),
-  slug: varchar("slug", { length: 25 }).notNull().unique(),
+  slug: varchar("slug", { length: 35 }).notNull().unique(),
   description: text("description"),
+  stripePrice: integer("stripe_price").default(0),
+  stripeProductId: varchar("stripe_product_id"),
+  stripePriceId: varchar("stripe_price_id"),
   ownerId: varchar("owner_id", { length: 255 })
     .notNull()
     .references(() => users.id),

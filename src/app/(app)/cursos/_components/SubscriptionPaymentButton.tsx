@@ -11,8 +11,14 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 export default function SubscriptionPaymentButton({
   courseId,
+  stripePriceId,
+  courseSlug,
+  subscriptionId,
 }: {
   courseId: string;
+  stripePriceId: string;
+  courseSlug: string;
+  subscriptionId?: string;
 }) {
   const { mutateAsync: createCheckout } =
     api.payment.createSubscriptionCheckout.useMutation();
@@ -20,8 +26,10 @@ export default function SubscriptionPaymentButton({
   const handleSubscribe = async () => {
     try {
       const { sessionId } = await createCheckout({
+        subscriptionId,
         courseId,
-        priceId: "price_123", // Reemplazar con ID real de precio de Stripe
+        slug: courseSlug,
+        priceId: stripePriceId, // Reemplazar con ID real de precio de Stripe
       });
 
       const stripe = await stripePromise;

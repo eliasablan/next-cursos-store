@@ -63,11 +63,11 @@ export default async function CoursesGrid({
                       </p>
                     </div>
                   </div>
-                  <School className="absolute right-0 top-0 h-28 w-28 text-primary/50" />
+                  <School className="absolute right-0 top-0 h-28 w-28 text-primary" />
                 </div>
               </Link>
             </CardContent>
-            {openSubscribtion && teacher?.id !== session?.user.id && (
+            {openSubscribtion && session && teacher?.id !== session.user.id && (
               <CardFooter className="h-fit">
                 <div className="flex w-full justify-end">
                   <SubscribeCourseButton courseId={course.id} />

@@ -8,6 +8,7 @@ import { courses, lessons } from "@/server/db/schema";
 import { and, eq, gte, lt, lte, asc, or } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { CourseSchema } from "@/schemas/course";
+import stripe from "@/server/stripe";
 
 export const courseRouter = createTRPCRouter({
   updateOrCreate: protectedProcedure
@@ -43,12 +44,28 @@ export const courseRouter = createTRPCRouter({
         });
       }
 
+      const stripeProduct = await stripe.products.create({
+        name: input.name,
+        description: input.description,
+        default_price_data: {
+          currency: "usd",
+          unit_amount: input.price * 100,
+        },
+        metadata: {
+          owner: ctx.session.user.name!,
+          email: ctx.session.user.email,
+        },
+      });
+
       const course = await ctx.db
         .insert(courses)
         .values({
           name: input.name,
           slug: input.slug,
           description: input.description,
+          stripePrice: input.price,
+          stripeProductId: stripeProduct.id,
+          stripePriceId: stripeProduct.default_price as string,
           startDate: new Date(input.startDate!),
           endDate: new Date(input.endDate!),
           ownerId: ctx.session.user.id,

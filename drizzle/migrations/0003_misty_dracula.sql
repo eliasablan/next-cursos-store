@@ -1,0 +1,1 @@
+ALTER TABLE "course" ADD COLUMN "price" integer DEFAULT 0;
