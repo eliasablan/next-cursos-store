@@ -6,8 +6,9 @@ import { api } from "@/trpc/react";
 import { LockKeyhole } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 import { toast } from "sonner";
+import { env } from "@/env";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 export default function SubscriptionPaymentButton({
   courseId,

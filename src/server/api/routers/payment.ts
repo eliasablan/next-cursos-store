@@ -61,8 +61,8 @@ export const paymentRouter = createTRPCRouter({
           },
         ],
         mode: "payment",
-        success_url: `${process.env.NEXTAUTH_URL}/cursos/${input.slug}?success=true`,
-        cancel_url: `${process.env.NEXTAUTH_URL}/cursos/${input.slug}?canceled=true`,
+        success_url: `${process.env.APP_URL}/cursos/${input.slug}?success=true`,
+        cancel_url: `${process.env.APP_URL}/cursos/${input.slug}?canceled=true`,
         metadata: {
           courseId: input.courseId,
           subscriptionId: subscription!,
