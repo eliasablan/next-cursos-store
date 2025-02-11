@@ -44,7 +44,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import NumberInput from "@/components/ui/number-input";
+import PriceSelector from "@/components/ui/price-selector";
 // #endregion
 
 // #region CourseForm
@@ -292,10 +292,8 @@ export default function CourseForm() {
                             Precio del curso en USD
                           </FormDescription>
                           <FormControl>
-                            <NumberInput
+                            <PriceSelector
                               aria-label="Precio del curso en dólares"
-                              min={0}
-                              max={100}
                               {...field}
                             />
                           </FormControl>
