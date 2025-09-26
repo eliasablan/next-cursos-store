@@ -45,10 +45,7 @@ export default async function MissionsCarousel() {
           missions.filter((mission) => mission.status === tab).length > 0 && (
             <TabsContent key={tab} value={tab}>
               <Carousel
-                opts={{
-                  align: "start",
-                  loop: true,
-                }}
+                opts={{ align: "start", loop: true }}
                 className="w-full"
               >
                 <CarouselContent>
@@ -110,9 +107,7 @@ export default async function MissionsCarousel() {
                                         : "Extendido: "}
                                       {format(
                                         new Date(
-                                          extensionDate
-                                            ? extensionDate
-                                            : mission.deadline,
+                                          extensionDate ?? mission.deadline,
                                         ),
                                         "d 'de' MMMM, yyyy",
                                         { locale: es },

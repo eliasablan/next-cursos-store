@@ -112,13 +112,7 @@ type CarouselCourse = Awaited<
 
 function CoursesCarousel({ courses }: { courses: CarouselCourse[] }) {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        loop: true,
-      }}
-      className="w-full"
-    >
+    <Carousel opts={{ align: "start", loop: true }} className="w-full">
       <CarouselContent>
         {courses.map((course, courseIndex) => (
           <CarouselItem key={course.id} className="sm:basis-1/2 xl:basis-1/3">
@@ -169,13 +163,7 @@ type CarouselReview = Awaited<
 
 function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-        loop: true,
-      }}
-      className="w-full"
-    >
+    <Carousel opts={{ align: "start", loop: true }} className="w-full">
       <CarouselContent>
         {reviews.map((review, index) => (
           <CarouselItem key={review.id} className="sm:basis-1/2 xl:basis-1/3">
@@ -195,13 +183,9 @@ function ReviewsCarousel({ reviews }: { reviews: CarouselReview[] }) {
                         <span className="font-bold">Fecha de entrega: </span>
                       )}
                       {format(
-                        review.extension
-                          ? review.extension
-                          : review.mission.deadline,
+                        review.extension ?? review.mission.deadline,
                         "h:mm a 'de' PPP",
-                        {
-                          locale: es,
-                        },
+                        { locale: es },
                       )}
                     </p>
                     <Progress

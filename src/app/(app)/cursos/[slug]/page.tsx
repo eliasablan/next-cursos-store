@@ -33,9 +33,7 @@ import {
 } from "@/components/ui/responsive-dialog";
 
 interface CursoProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<{ slug: string }>;
 }
 
 export const generateMetadata = async ({ params }: CursoProps) => {
@@ -44,10 +42,7 @@ export const generateMetadata = async ({ params }: CursoProps) => {
   const title = curso?.name;
   const description = curso?.description;
 
-  return {
-    title,
-    description,
-  };
+  return { title, description };
 };
 
 export default async function Curso({ params }: CursoProps) {
@@ -105,14 +100,10 @@ export default async function Curso({ params }: CursoProps) {
                                 <p className="font-medium text-muted-foreground">
                                   {format(
                                     new Date(
-                                      lesson.newDate
-                                        ? lesson.newDate
-                                        : lesson.startDate!,
+                                      lesson.newDate ?? lesson.startDate!,
                                     ),
                                     "PPP 'a las' h:mm a",
-                                    {
-                                      locale: es,
-                                    },
+                                    { locale: es },
                                   )}
                                 </p>
                               )}
@@ -122,9 +113,7 @@ export default async function Curso({ params }: CursoProps) {
                                   {format(
                                     new Date(lesson.startDate!),
                                     "PPP 'a las' h:mm a",
-                                    {
-                                      locale: es,
-                                    },
+                                    { locale: es },
                                   )}
                                 </p>
                               )}

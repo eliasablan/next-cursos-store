@@ -36,17 +36,14 @@ export default function LoginPreview() {
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     await signIn("credentials", {
       email: values.email,
       password: values.password,
-      callbackUrl: callbackUrl ? callbackUrl : "/dashboard",
+      callbackUrl: callbackUrl ?? "/dashboard",
     });
   }
 
