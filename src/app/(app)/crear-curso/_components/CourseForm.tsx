@@ -64,7 +64,7 @@ export default function CourseForm() {
   const utils = api.useUtils();
   const form = useForm({
     resolver: zodResolver(CourseSchema),
-    defaultValues: {
+    values: {
       id: course?.id ?? "",
       name: course?.name ?? "",
       slug: course?.slug ?? "",
@@ -112,19 +112,6 @@ export default function CourseForm() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
-
-  // Populates the form once the course data is loaded
-  useEffect(() => {
-    if (course) {
-      form.setValue("id", course.id ?? "");
-      form.setValue("name", course.name ?? "");
-      form.setValue("slug", course.slug);
-      form.setValue("description", course.description ?? "");
-      form.setValue("price", course.stripePrice ?? 0);
-      form.setValue("startDate", course.startDate);
-      form.setValue("endDate", course.endDate);
-    }
-  }, [course, form]);
 
   // Form Submit and Course and Lessons creation
   async function onSubmit(values: CourseSchemaType) {
