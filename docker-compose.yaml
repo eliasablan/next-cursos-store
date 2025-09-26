@@ -1,22 +1,9 @@
-version: "3.8"
 services:
-  iacoders-db:
-    restart: unless-stopped
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - db:/var/lib/postgresql/data
-    networks:
-      - next-iacoders
-    ports:
-      - 5434:5432
-  iacoders-next:
+  iacoders:
     image: ghcr.io/eliasablan/iacoders-eliasablan:latest
-    ports:
-      - 5006:3000
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@iacoders-db:5432/${POSTGRES_DB}
       - NODE_ENV=production
@@ -24,16 +11,3 @@ services:
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL}
-      - NEXTAUTH_URL_INTERNAL=${NEXTAUTH_URL_INTERNAL}
-    depends_on:
-      - iacoders-db
-    networks:
-      - next-iacoders
-volumes:
-  db: null
-x-dockge:
-  urls:
-    - https://iacoders.eliasablan.com
-networks:
-  next-iacoders:
-    driver: bridge
