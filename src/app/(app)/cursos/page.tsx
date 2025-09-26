@@ -20,7 +20,7 @@ export default async function page() {
         <LibraryBig className="size-6" />
         Catálogo de cursos
       </h1>
-      <Tabs defaultValue="next">
+      <Tabs defaultValue="started">
         <div className="flex items-center">
           <TabsList>
             <TabsTrigger value="finished">Finalizados</TabsTrigger>
@@ -32,7 +32,7 @@ export default async function page() {
           <CoursesGrid courses={finishedCourses} />
         </TabsContent>
         <TabsContent value="started">
-          <CoursesGrid courses={startedCourses} />
+          <CoursesGrid courses={startedCourses} openSubscribtion={true} />
         </TabsContent>
         <TabsContent value="next">
           <CoursesGrid courses={nextCourses} openSubscribtion={true} />
